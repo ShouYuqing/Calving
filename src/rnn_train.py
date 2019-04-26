@@ -31,7 +31,7 @@ def train(iterations, load_iter, batch_size = 30):
     y_ = tf.placeholder(tf.float32, [None, time_step, 1], name = 'output_y')
 
     # cell
-    cell = tf.contrib.rnn.MultiRNNCell([lstm_cell() for _ in range(lstm_layers)])
+    cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size = lstm_size) for _ in range(lstm_layers)])
 
     # drop out
     keep_prob = tf.placeholder(tf.float32, name='keep_prob')
@@ -89,7 +89,7 @@ def train(iterations, load_iter, batch_size = 30):
 
     # print loss
 
-def lstm_cell():
+def lstm_cell(lstm_size):
     return tf.contrib.rnn.BasicLSTMCell(lstm_size)
 
 if __name__ == "__main__":

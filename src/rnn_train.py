@@ -1,5 +1,5 @@
 """
-RNN for demo data
+tensorflow implementation of standard RNN
 """
 import os
 import glob
@@ -35,13 +35,13 @@ def train(iterations, load_iter, batch_size = 30):
 
     # drop out
     keep_prob = tf.placeholder(tf.float32, name='keep_prob')
-    drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
+    #drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
 
     # initial state
     initial_state = cell.zero_state(batch_size, tf.float32)
 
     # cell output
-    outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state=initial_state)
+    outputs, final_state = tf.nn.dynamic_rnn(cell, x, sequence_length = time_step, initial_state=initial_state)
 
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
@@ -50,7 +50,7 @@ def train(iterations, load_iter, batch_size = 30):
     # [batch_size, lstm_size*binary_dim] ==> [batch_size*binary_dim, lstm_size]
     # [batch_size, time_steps, lstm_size] --> [batch_size, time_steps, 1]
     outputs = tf.reshape(outputs, [-1, lstm_size])
-    print(outputs.shape)
+
     # 得到输出, logits大小为[batch_size*binary_dim, 1]
     logits = tf.sigmoid(tf.matmul(outputs, weights))
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
@@ -77,13 +77,7 @@ def train(iterations, load_iter, batch_size = 30):
         val_x, val_y = datagenerator.batch_data(batch_size=batch_size)
         result = sess.run(predictions, feed_dict={x: val_x, y_: val_y, keep_prob: 1.0})
 
-        result = np.fliplr(np.round(result))
-        result = result.astype(np.int32)
-
-        for b_x, b_p, a, b, add in zip(np.fliplr(val_x), result, n1, n2, add):
-            print('{}:{}'.format(b_x[:, 0], a))
-            print('{}:{}'.format(b_x[:, 1], b))
-            print('{}:{}\n'.format(b_p, binary2int(b_p)))
+        print(result)
 
     # save model
 

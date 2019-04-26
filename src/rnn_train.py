@@ -19,11 +19,13 @@ def train(iterations, load_iter, batch_size = 30):
     :param load_iter: continue training from checkpoint
     :param batch_size: batch_size
     """
-    # parameters
+    # parameters for window method
     m = 30
     n = 2
     len = 15
     time_step = m - (len - 1)
+
+    # model parameters
     lstm_size = 20
     lstm_layers = 2
 

@@ -13,8 +13,13 @@ import datagenerator
 sys.path.append('../ext/')
 
 def train(iterations, load_iter, batch_size = 1):
+    # read data
 
+    # model
 
+    # train
+
+    # print loss
 
 
 if __name__ == "__main__":

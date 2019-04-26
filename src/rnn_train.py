@@ -69,7 +69,7 @@ def train(iterations, load_iter, batch_size = 30):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.batch_data(batch_size = batch_size)
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len*n), y_: input_y, keep_prob: 0.5})
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
@@ -77,7 +77,7 @@ def train(iterations, load_iter, batch_size = 30):
 
         #val_x, val_y, n1, n2, add = batch_generation(batch_size, largest_number)
         val_x, val_y = datagenerator.batch_data(batch_size=batch_size)
-        result = sess.run(predictions, feed_dict={x: val_x, y_: val_y, keep_prob: 1.0})
+        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
 
         print(result)
 

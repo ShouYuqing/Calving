@@ -66,9 +66,9 @@ def train(iterations, load_iter, batch_size = 30):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.batch_data(batch_size = batch_size)
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x, y_: input_y, keep_prob: 0.5})
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], m*n), y_: input_y, keep_prob: 0.5})
 
-            if iteration % 1000 == 0:
+            if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
             iteration += 1
 

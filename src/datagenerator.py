@@ -12,7 +12,6 @@ def demo_data(m = 30, n = 2, time_step = 15):
     :param time_step: time_step of RNN
     :return: data with the size of time_step*15*4
     """
-    # sliding window to generate data
     data = np.zeros((m, n))
     for i in arange(n):
         data[0:int(m/2)-1, i] = np.random.uniform(low = 0.0, high = 5.0, size = (int(m/2), 1)) + i
@@ -20,6 +19,8 @@ def demo_data(m = 30, n = 2, time_step = 15):
     # generate positive
 
     # generate negative
+
+    # sliding window to generate data
 
 
 def data_split():

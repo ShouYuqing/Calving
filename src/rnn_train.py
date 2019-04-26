@@ -28,7 +28,7 @@ def train(iterations, load_iter, batch_size = 30):
 
     # placeholder
     x = tf.placeholder(tf.float32, [None, time_step, m*n], name = 'input_x')
-    y_ = tf.placeholder(tf.float32, [None, time_step, 1], name = 'output_y')
+    y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
 
     # cell
     cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size = lstm_size) for _ in range(lstm_layers)])
@@ -41,7 +41,7 @@ def train(iterations, load_iter, batch_size = 30):
     initial_state = cell.zero_state(batch_size, tf.float32)
 
     # cell output
-    outputs, final_state = tf.nn.dynamic_rnn(cell, x, sequence_length = time_step, initial_state=initial_state)
+    outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state=initial_state)
 
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
@@ -49,11 +49,11 @@ def train(iterations, load_iter, batch_size = 30):
 
     # [batch_size, lstm_size*binary_dim] ==> [batch_size*binary_dim, lstm_size]
     # [batch_size, time_steps, lstm_size] --> [batch_size, time_steps, 1]
-    #outputs = tf.reshape(outputs, [-1, lstm_size])
+    outputs = tf.reshape(outputs, [-1, lstm_size])
 
-    predictions = tf.sigmoid(tf.matmul(outputs, weights))
+    logits = tf.sigmoid(tf.matmul(outputs, weights))
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
-    #predictions = tf.reshape(logits, [-1, binary_dim])
+    predictions = tf.reshape(logits, [-1, time_step])
 
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)

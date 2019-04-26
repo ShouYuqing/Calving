@@ -51,7 +51,7 @@ def demo_data(m = 30, n = 2, len = 15):
             dat[i, :, j] = data[i:i+len, j]
     return dat, label
 
-def batch_data(batch_size, len = 15):
+def batch_data(batch_size, len = 15, m = 30):
     """
     generate batch for the data
     :param batch_size: size

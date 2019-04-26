@@ -58,14 +58,12 @@ def batch_data(batch_size, len = 15):
     :return: batch of data
     """
     time_step = m - (len - 1)
-    data = np.array((batch_size, time_step, len, 2))
-    label = np.array((batch_size, time_step, 1))
+    data = np.zeros((batch_size, time_step, len, 2))
+    label = np.zeros((batch_size, time_step, 1))
     for i in np.arange(batch_size):
         d, l = demo_data()
         data[i, :, :, :] = d
         label[i, :, :] = l
-    print(data.shape)
-    print(label.shape)
     return data, label
 
 

@@ -50,6 +50,7 @@ def train(iterations, load_iter, batch_size = 30):
     # [batch_size, lstm_size*binary_dim] ==> [batch_size*binary_dim, lstm_size]
     # [batch_size, time_steps, lstm_size] --> [batch_size, time_steps, 1]
     outputs = tf.reshape(outputs, [-1, lstm_size])
+    print(outputs.shape)
     # 得到输出, logits大小为[batch_size*binary_dim, 1]
     logits = tf.sigmoid(tf.matmul(outputs, weights))
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
@@ -65,17 +66,16 @@ def train(iterations, load_iter, batch_size = 30):
         iteration = 1
         for i in range(iterations):
             # read data
-            input_x, input_y, _, _, _ = batch_generation(batch_size, largest_number)
+            input_x, input_y = datagenerator.batch_data(batch_size = batch_size)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x, y_: input_y, keep_prob: 0.5})
 
             if iteration % 1000 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
             iteration += 1
 
-
-        val_x, val_y, n1, n2, add = batch_generation(batch_size, largest_number)
+        #val_x, val_y, n1, n2, add = batch_generation(batch_size, largest_number)
+        val_x, val_y = datagenerator.batch_data(batch_size=batch_size)
         result = sess.run(predictions, feed_dict={x: val_x, y_: val_y, keep_prob: 1.0})
-
 
         result = np.fliplr(np.round(result))
         result = result.astype(np.int32)

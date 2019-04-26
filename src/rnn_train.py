@@ -30,7 +30,7 @@ def train(iterations, load_iter, batch_size = 30):
     lstm_layers = 2
 
     # placeholder
-    x = tf.placeholder(tf.float32, [None, time_step, m*n], name = 'input_x')
+    x = tf.placeholder(tf.float32, [None, time_step, len*n], name = 'input_x')
     y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
 
     # cell

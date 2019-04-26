@@ -22,7 +22,8 @@ def train(iterations, load_iter, batch_size = 30):
     # parameters
     m = 30
     n = 2
-    time_step = 15
+    len = 15
+    time_step = m - (len - 1)
     lstm_size = 20
     lstm_layers = 2
 

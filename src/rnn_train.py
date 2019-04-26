@@ -27,7 +27,7 @@ def train(iterations, load_iter, batch_size = 30):
     lstm_layers = 2
 
     # placeholder
-    x = tf.placeholder(tf.float32, [None, time_step, m, n], name = 'input_x')
+    x = tf.placeholder(tf.float32, [None, time_step, m*n], name = 'input_x')
     y_ = tf.placeholder(tf.float32, [None, time_step, 1], name = 'output_y')
 
     # cell
@@ -49,12 +49,11 @@ def train(iterations, load_iter, batch_size = 30):
 
     # [batch_size, lstm_size*binary_dim] ==> [batch_size*binary_dim, lstm_size]
     # [batch_size, time_steps, lstm_size] --> [batch_size, time_steps, 1]
-    outputs = tf.reshape(outputs, [-1, lstm_size])
+    #outputs = tf.reshape(outputs, [-1, lstm_size])
 
-    # 得到输出, logits大小为[batch_size*binary_dim, 1]
-    logits = tf.sigmoid(tf.matmul(outputs, weights))
+    predictions = tf.sigmoid(tf.matmul(outputs, weights))
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
-    predictions = tf.reshape(logits, [-1, binary_dim])
+    #predictions = tf.reshape(logits, [-1, binary_dim])
 
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)

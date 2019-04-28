@@ -37,6 +37,7 @@ def test():
     time_step = m - (len2 - 1)  # time_step size
 
     # model parameters
+    batch_size = 20
     lstm_size = 20
     lstm_layers = 2
 

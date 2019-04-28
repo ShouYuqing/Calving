@@ -77,7 +77,11 @@ def test():
     # load and restore the model
     with tf.Session() as sess:
         saver.restore(sess, '../models/iter10001')
-
+        # validation
+        val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
+        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2 * n),
+                                                  y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+        print(result)
 
         #graph = tf.get_default_graph()
         #saver = tf.train.import_meta_graph('../models/iter10001.meta')

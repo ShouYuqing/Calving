@@ -38,6 +38,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     validate_input = data[40:50, :, :, :]
     validate_output = label[40:50, :, :]
+    print(validate_input.shape)
 
     # parameters
     m = 14 # data length
@@ -95,7 +96,7 @@ def train(iterations, load_iter, batch_size = 20):
         saver = tf.train.Saver()
         saver.save(sess, "../models/iter" + str(iteration))
         # validation
-        val_x, val_y = datagenerator.gene_batch(batch_size = 20, data = validate_input, label = validate_output)
+        val_x, val_y = datagenerator.gene_batch(batch_size = 1, data = validate_input, label = validate_output)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         cost = sess.run(cost, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         print(result)

@@ -13,7 +13,7 @@ import datagenerator
 sys.path.append('../data/')
 
 
-def train(iterations, load_iter, batch_size = 30):
+def train(iterations, load_iter, batch_size = 20):
     """
     RNN for calving time prediction
     :param iterations: training iteration
@@ -31,11 +31,12 @@ def train(iterations, load_iter, batch_size = 30):
 
     data, label = gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
 
+    # split training and testing
     train_input = data[0:40, :, :, :]
     train_output = label[0:40, :, :]
 
-    validate_input =
-    validate_output =
+    validate_input = data[40:50, :, :, :]
+    validate_output = label[40:50, :, :]
 
     # parameters
     m = 14 # total length of data for each cow
@@ -82,7 +83,7 @@ def train(iterations, load_iter, batch_size = 30):
         iteration = 1
         for i in range(iterations):
             # read data
-            input_x, input_y = datagenerator.batch_data(batch_size = batch_size)
+            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:
@@ -90,7 +91,7 @@ def train(iterations, load_iter, batch_size = 30):
             iteration += 1
 
         # validation
-        val_x, val_y = datagenerator.batch_data(batch_size=batch_size)
+        val_x, val_y = datagenerator.gene_batch(batch_size = 5, data = validate_input, label = validate_output)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
 
         print(result)
@@ -108,7 +109,7 @@ if __name__ == "__main__":
                         dest="load_iter", default=0,
                         help="load iters")
     parser.add_argument("--iters", type=int,
-                        dest="iterations", default=1000,
+                        dest="iterations", default=10000,
                         help="number of iterations")
     args = parser.parse_args()
     train(**vars(args))

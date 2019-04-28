@@ -217,5 +217,5 @@ if __name__ == "__main__":
 
     # test gene_batch()
     input, output = gene_batch(batch_size = 20, data = data, label = label)
-    print(input.shape)
+
 

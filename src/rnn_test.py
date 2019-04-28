@@ -105,5 +105,13 @@ def test():
         # 使用y进行预测
         #sess.run(y, feed_dict={input_x:...., keep_prob:1.0})
 
+def lstm_cell(lstm_size):
+    """
+    construct LSTM cell with size
+    :param lstm_size: layer size
+    :return: cell with size
+    """
+    return tf.contrib.rnn.BasicLSTMCell(lstm_size)
+
 if __name__ == "__main__":
     test()

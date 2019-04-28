@@ -1,5 +1,6 @@
 # Calving
-Machine learning based for calving time prediction 
+Calving time prediction
 
-time-series data for calving prediction
-model: RNN
+sliding window extracting features
+
+model: RNN 

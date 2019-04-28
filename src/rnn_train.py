@@ -62,10 +62,10 @@ def train(iterations, load_iter, batch_size = 20):
     #drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
 
     # initial state
-    initial_state = cell.zero_state(batch_size, tf.float32)
+    #initial_state = cell.zero_state(batch_size, tf.float32)
 
     # cell output
-    outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state=initial_state)
+    outputs, final_state = tf.nn.dynamic_rnn(cell, x)
 
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
@@ -92,15 +92,17 @@ def train(iterations, load_iter, batch_size = 20):
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
             iteration += 1
 
+        # save model
+        saver = tf.train.Saver()
+        saver.save(sess, "../models/iter" + str(iteration))
+
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = 1, data = validate_input, label = validate_output)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         cost = sess.run(cost, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         print(result)
         print(cost)
-        # save model
-        saver = tf.train.Saver()
-        saver.save(sess, "../models/iter" + str(iteration))
+
 
     # print loss
 

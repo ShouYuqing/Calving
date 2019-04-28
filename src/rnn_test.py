@@ -29,12 +29,64 @@ def test():
     validate_input = data[40:50, :, :, :]
     validate_output = label[40:50, :, :]
 
+    # model specification
+    # parameters
+    m = 14  # data length
+    n = 4  # feature num
+    len2 = 7  # length of window
+    time_step = m - (len2 - 1)  # time_step size
+
+    # model parameters
+    lstm_size = 20
+    lstm_layers = 2
+
+    # placeholder
+    x = tf.placeholder(tf.float32, [None, time_step, len2 * n], name='input_x')
+    y_ = tf.placeholder(tf.float32, [None, time_step], name='output_y')
+
+    # cell
+    cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size=lstm_size) for _ in range(lstm_layers)])
+
+    # drop out
+    keep_prob = tf.placeholder(tf.float32, name='keep_prob')
+    # drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
+
+    # initial state
+    initial_state = cell.zero_state(batch_size, tf.float32)
+
+    # cell output
+    outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state=initial_state)
+
+    # output layer
+    weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
+    b = tf.Variable(tf.ones([1]))
+    bias = tf.zeros([1])
+    outputs = tf.reshape(outputs, [-1, lstm_size])
+    # logits = tf.sigmoid(tf.matmul(outputs, weights))
+    logits = tf.matmul(outputs, weights) + b
+    # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
+    predictions = tf.reshape(logits, [-1, time_step])
+
+    # cost
+    cost = tf.losses.mean_squared_error(y_, predictions)
+    optimizer = tf.train.AdamOptimizer().minimize(cost)
+
+    saver = tf.train.Saver()
+
     # load and restore the model
-    graph = tf.get_default_graph()
-    saver = tf.train.import_meta_graph('../models/iter10001.meta')
-    saver.restore(sess, '../models/iter10001')
-    tensor_name_list = [tensor.name for tensor in gragh.as_graph_def().node]
-    print(tensor_name_list)
+    with tf.Session() as sess:
+        saver.restore(sess, '../models/iter10001')
+
+
+        #graph = tf.get_default_graph()
+        #saver = tf.train.import_meta_graph('../models/iter10001.meta')
+        #saver.restore(sess, '../models/iter10001')
+        #input_x = graph.get_operation_by_name('input_x').outputs[0]
+        #output_y = graph.get_operation_by_name('output_y').outputs[0]
+        #keep_prob = graph.get_operation_by_name('keep_prob').outputs[0]
+
+        #tensor_name_list = [tensor.name for tensor in graph.as_graph_def().node]
+
     #x = gragh.get_tensor_by_name('Placeholder:0')  # 获取输入变量（占位符，由于保存时未定义名称，tf自动赋名称“Placeholder”）
     #y = gragh.get_tensor_by_name('Placeholder_1:0')  # 获取输出变量
     #keep_prob = gragh.get_tensor_by_name('Placeholder_2:0')  # 获取dropout的保留参数

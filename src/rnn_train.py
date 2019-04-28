@@ -76,6 +76,9 @@ def train(iterations, load_iter, batch_size = 20):
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
 
+    # save for prediction
+    tf.add_to_collection('trained_networl', y)
+
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)
     optimizer = tf.train.AdamOptimizer().minimize(cost)
@@ -104,10 +107,12 @@ def train(iterations, load_iter, batch_size = 20):
         print(result)
         print(cost)
 
-
-    # print loss
-
 def lstm_cell(lstm_size):
+    """
+    construct LSTM cell with size
+    :param lstm_size: layer size
+    :return: cell with size
+    """
     return tf.contrib.rnn.BasicLSTMCell(lstm_size)
 
 if __name__ == "__main__":

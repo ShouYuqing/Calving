@@ -40,10 +40,10 @@ def train(iterations, load_iter, batch_size = 20):
     validate_output = label[40:50, :, :]
 
     # parameters
-    m = 14 # total length of data for each cow
-    n = 4 # each date's feature
-    len2 = 7 # length of sliding window
-    time_step = m - (len2 - 1) # time_step for training
+    m = 14 # data length
+    n = 4 # feature num
+    len2 = 7 # length of window
+    time_step = m - (len2 - 1) # time_step size
 
     # model parameters
     lstm_size = 20
@@ -85,7 +85,7 @@ def train(iterations, load_iter, batch_size = 20):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
@@ -93,7 +93,7 @@ def train(iterations, load_iter, batch_size = 20):
 
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = 5, data = validate_input, label = validate_output)
-        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
 
         print(result)
 

@@ -13,7 +13,7 @@ import tensorflow as tf
 sys.path.append('../data/')
 sys.path.append('../ext/')
 import datagenerator
-import ssh_data
+#import ssh_data
 
 
 def train(iterations, load_iter, batch_size = 20):

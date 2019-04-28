@@ -14,7 +14,7 @@ sys.path.append('../data/')
 sys.path.append('../models/')
 sys.path.append('../ext/')
 import datagenerator
-import ssh_data
+#import ssh_data
 
 
 def test():

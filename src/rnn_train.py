@@ -30,7 +30,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
 
-    data, label = datagenerator.gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
+    data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -42,15 +42,15 @@ def train(iterations, load_iter, batch_size = 20):
     # parameters
     m = 14 # total length of data for each cow
     n = 4 # each date's feature
-    len = 7 # length of sliding window
-    time_step = m - (len - 1) # time_step for training
+    len2 = 7 # length of sliding window
+    time_step = m - (len2 - 1) # time_step for training
 
     # model parameters
     lstm_size = 20
     lstm_layers = 2
 
     # placeholder
-    x = tf.placeholder(tf.float32, [None, time_step, len*n], name = 'input_x')
+    x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
     y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
 
     # cell

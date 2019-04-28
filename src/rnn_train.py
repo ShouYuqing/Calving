@@ -10,8 +10,10 @@ import numpy as np
 import tensorflow as tf
 
 # lib
-import datagenerator
 sys.path.append('../data/')
+sys.path.append('../ext/')
+import datagenerator
+import ssh_data
 
 
 def train(iterations, load_iter, batch_size = 20):

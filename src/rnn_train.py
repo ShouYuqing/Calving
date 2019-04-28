@@ -1,5 +1,5 @@
 """
-RNN for calving time prediction
+RNN training
 """
 import os
 import sys
@@ -91,13 +91,13 @@ def train(iterations, load_iter, batch_size = 20):
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
             iteration += 1
 
+        # save model
+
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = 20, data = validate_input, label = validate_output)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
-
+        print(result.shape)
         print(result)
-
-    # save model
 
     # print loss
 

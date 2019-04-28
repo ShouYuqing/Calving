@@ -52,3 +52,6 @@ def test():
 
         # 使用y进行预测
         #sess.run(y, feed_dict={input_x:...., keep_prob:1.0})
+
+if __name__ == "__main__":
+    test()

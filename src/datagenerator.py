@@ -203,8 +203,6 @@ def gene_batch(batch_size, data, label):
         batch_label[i, :, :] = label[n, :, :]
     return batch_data, batch_label
 
-
-
 if __name__ == "__main__":
     # test file_name()
     data_dir = "../data/training_data"

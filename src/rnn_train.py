@@ -38,7 +38,6 @@ def train(iterations, load_iter, batch_size = 20):
 
     validate_input = data[40:50, :, :, :]
     validate_output = label[40:50, :, :]
-    print(validate_input.shape)
 
     # parameters
     m = 14 # data length

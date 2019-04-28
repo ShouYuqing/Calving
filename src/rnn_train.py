@@ -73,7 +73,7 @@ def train(iterations, load_iter, batch_size = 20):
     bias = tf.zeros([1])
     outputs = tf.reshape(outputs, [-1, lstm_size])
     #logits = tf.sigmoid(tf.matmul(outputs, weights))
-    logits = tf.matmul(outputs, weights)
+    logits = tf.matmul(outputs, weights) + b
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
 

@@ -48,7 +48,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # model parameters
     lstm_size = 20
-    lstm_layers = 3
+    lstm_layers = 2
 
     # placeholder
     x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
@@ -70,8 +70,9 @@ def train(iterations, load_iter, batch_size = 20):
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     bias = tf.zeros([1])
-    outputs = tf.reshape(outputs, [-1, lstm_size]) + bias
-    logits = tf.sigmoid(tf.matmul(outputs, weights))
+    outputs = tf.reshape(outputs, [-1, lstm_size])
+    #logits = tf.sigmoid(tf.matmul(outputs, weights))
+    logits = tf.matmul(outputs, weights)
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
 
@@ -86,7 +87,7 @@ def train(iterations, load_iter, batch_size = 20):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            print(input_y)
+            print(input_y[])
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:

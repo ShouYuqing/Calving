@@ -1,5 +1,5 @@
 """
-tensorflow implementation of standard RNN
+RNN for calving time prediction
 """
 import os
 import glob
@@ -10,7 +10,10 @@ import tensorflow as tf
 
 # lib
 import datagenerator
-#sys.path.append('../ext/')
+sys.path.append('../data/')
+
+data_base_dir = '../data/'
+
 
 def train(iterations, load_iter, batch_size = 30):
     """
@@ -19,6 +22,7 @@ def train(iterations, load_iter, batch_size = 30):
     :param load_iter: continue training from checkpoint
     :param batch_size: batch_size
     """
+
     # parameters for window method
     m = 30
     n = 2
@@ -50,8 +54,7 @@ def train(iterations, load_iter, batch_size = 30):
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     bias = tf.zeros([1])
 
-    # [batch_size, lstm_size*binary_dim] ==> [batch_size*binary_dim, lstm_size]
-    # [batch_size, time_steps, lstm_size] --> [batch_size, time_steps, 1]
+
     outputs = tf.reshape(outputs, [-1, lstm_size])
 
     logits = tf.sigmoid(tf.matmul(outputs, weights))
@@ -75,7 +78,7 @@ def train(iterations, load_iter, batch_size = 30):
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
             iteration += 1
 
-        #val_x, val_y, n1, n2, add = batch_generation(batch_size, largest_number)
+        # validation
         val_x, val_y = datagenerator.batch_data(batch_size=batch_size)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
 

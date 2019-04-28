@@ -3,6 +3,7 @@ data generator for demo
 """
 import numpy as np
 import pandas as pd
+import os
 
 def gene_arr(length):
     """
@@ -65,5 +66,30 @@ def batch_data(batch_size, len = 15, m = 30):
         data[i, :, :, :] = d
         label[i, :, :] = l
     return data, label
+
+"""
+steps:  calve_data.json: id + calving time
+        training_data: 
+        read id data into file --> read calving time through id -->
+"""
+
+def file_name(file_dir):
+    """
+    search the file name in a dir
+    :param file_dir:
+    :return: file name string
+    """
+    for root, dirs, files in os.walk(file_dir):
+        print(files)
+    return files
+
+
+#def read_js():
+
+
+if __name__ == "__main__":
+    # test file_name
+    data_dir = "../data/training_data"
+    file_name(data_dir)
 
 

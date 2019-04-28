@@ -69,6 +69,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
+    b = tf.Variable(tf.ones([1]))
     bias = tf.zeros([1])
     outputs = tf.reshape(outputs, [-1, lstm_size])
     #logits = tf.sigmoid(tf.matmul(outputs, weights))

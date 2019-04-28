@@ -23,12 +23,20 @@ def train(iterations, load_iter, batch_size = 30):
     :param batch_size: batch_size
     """
     # data generator
+    data_dir = "../data/training_data"
+    calv_num, files = file_name(data_dir)
 
+    date_file_dir = "../data/calve_data.json"
+    calv_dates = calv_date(calv_num=calv_num, file_dir=date_file_dir)
+
+    activity = read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
+
+    data, label = gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
 
     # parameters
-    m = 30 # total length of data for each cow
-    n = 2 # each date's feature
-    len = 15 # length of sliding window
+    m = 14 # total length of data for each cow
+    n = 4 # each date's feature
+    len = 7 # length of sliding window
     time_step = m - (len - 1) # time_step for training
 
     # model parameters

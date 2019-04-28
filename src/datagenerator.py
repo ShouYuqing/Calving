@@ -140,8 +140,9 @@ def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/tra
     :param files: list of "id.json"
     :param size: days
     :param data_dir: training data file
-    :return: activity data prior n days before calving
+    :return: activity data prior n days before calving (cow_num x data length x feature size)
     """
+    # acivity data
     activity = np.zeros((len(calv_num), size, 5))
     for i in np.arange(len(calv_num)):
         #print("--------start reading cow " + str(calv_num[i]) + "--------")
@@ -151,13 +152,39 @@ def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/tra
         file_dir = data_dir + files[i]
         f = open(file_dir, encoding='utf-8')
         read_data = json.load(f)# all the activity data for a single cow
-        m = 0
+        m = size - 1
         for j in calv_dates:
             activity[i, m, :] = read_data[j]
-            m = m + 1
+            m = m - 1
     return activity
 
-#def gene_data():
+def gene_data(num, activity_data, len = 7):
+    """
+    sliding window to generate data&label
+    feature selection
+    :param num: cow's number
+    :param activity_data: all the data
+    :param len: window size
+    :return: data, label
+    """
+    time_step = activity_data.shape[1] - (len - 1)
+    data = np.zeros((num, time_step, len, 4))
+    label = np.zeros((num, time_step, 1))
+    for n in np.arange(activity_data.shape[0]):
+        for i in np.arange(time_step):
+            if i == time_step - 1:
+                label[n, i] = 1
+            else:
+                label[n, i] = 0
+            # select features
+            m = 0
+            for j in np.array([0, 1, 2, 4]):
+                data[n, i, :, m] = activity_data[n, i:i + len, j]
+                m = m + 1
+    return data, label
+
+def gene_batch(batch_size, data, label):
+    
 
 
 if __name__ == "__main__":
@@ -173,8 +200,12 @@ if __name__ == "__main__":
     #dates = getdate(calv_dates[calv_num[1]], days=5)
 
     # test read_activity_data()
-    activity = read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 15)
+    activity = read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 14)# (50, 14, 5)
 
-    # test
+    # test gene_data()
+    data, label = gene_data(num = len(calv_num), activity_data = activity)
+
+    # test gene_batch()
+
 
 

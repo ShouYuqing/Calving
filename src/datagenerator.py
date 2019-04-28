@@ -1,9 +1,10 @@
 """
-data generator for demo
+data generator
 """
+import json
 import numpy as np
-import pandas as pd
 import os
+import datetime
 
 def gene_arr(length):
     """
@@ -68,28 +69,112 @@ def batch_data(batch_size, len = 15, m = 30):
     return data, label
 
 """
-steps:  calve_data.json: id + calving time
-        training_data: 
-        read id data into file --> read calving time through id -->
+Data cleansing
+    raw data:
+        calve_data.json
+        training_data
+    steps: 
+        read id data into file --> read calving date through id --> read back data before the calving date
+    
+    file:     training_data             calve_data                      training_data
+    Through sliding window to generate data
+    return: time-series data directly used for RNN training and validating
 """
 
 def file_name(file_dir):
     """
-    search the file name in a dir
-    :param file_dir:
-    :return: file name string
+    search the calves that has data
+    :param file_dir: file dir
+    :return: list of calv_num(string)
     """
     for root, dirs, files in os.walk(file_dir):
+        print("data:")
         print(files)
-    return files
+    calv_num = []
+    for file in files:
+        # split dates "XXXX-XX-XX"
+        calv_num.append(os.path.splitext(file)[0])
+    return calv_num, files
+
+def calv_date(calv_num, file_dir):
+    """
+    read calving date
+    :param calv_num: calv_num list
+    :param file_dir: json file dir
+    :return: list of calving date
+    """
+    # dict
+    calv_dates = {}
+    f = open(file_dir, encoding='utf-8')
+    read_data = json.load(f)
+    for num in calv_num:
+        calv_dates[str(num)] = read_data[num]
+    return calv_dates
+
+def getdate(date, days):
+    """
+    return list of date before n days
+    :param date: present date
+    :param days: prior days
+    :return: list of date
+    """
+    # list
+    date_list = []
+    date_s= date.split('-')
+    the_date = datetime.datetime(int(date_s[0]), int(date_s[1]), int(date_s[2]))
+    # construct dates
+    j = 1
+    for i in np.arange(days):
+        result_date = the_date + datetime.timedelta(days = -j)
+        d = result_date.strftime('%Y-%m-%d')
+        date_list.append(d)
+        j = j + 1
+    return date_list
 
 
-#def read_js():
+def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/training_data/"):
+    """
+    generate cow activity data for window sliding
+    :param calv_num: list of id
+    :param calv_date: date(a single date)
+    :param files: list of "id.json"
+    :param size: days
+    :param data_dir: training data file
+    :return: activity data prior n days before calving
+    """
+    activity = np.zeros((len(calv_num), size, 5))
+    for i in np.arange(len(calv_num)):
+        #print("--------start reading cow " + str(calv_num[i]) + "--------")
+        # read all dates
+        calv_dates = getdate(calv_date[str(calv_num[i])], days=size)
+        # read .json data of each cow
+        file_dir = data_dir + files[i]
+        f = open(file_dir, encoding='utf-8')
+        read_data = json.load(f)# all the activity data for a single cow
+        m = 0
+        for j in calv_dates:
+            activity[i, m, :] = read_data[j]
+            m = m + 1
+    return activity
+
+#def gene_data():
 
 
 if __name__ == "__main__":
-    # test file_name
+    # test file_name()
     data_dir = "../data/training_data"
-    file_name(data_dir)
+    calv_num, files = file_name(data_dir)
+
+    # test calv_date()
+    date_file_dir = "../data/calve_data.json"
+    calv_dates = calv_date(calv_num = calv_num, file_dir = date_file_dir)
+
+    # test getdate()
+    #dates = getdate(calv_dates[calv_num[1]], days=5)
+
+    # test read_activity_data()
+    activity = read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 15)
+
+    # test
 
 

@@ -12,22 +12,24 @@ import tensorflow as tf
 import datagenerator
 sys.path.append('../data/')
 
-data_base_dir = '../data/'
+data_dir = '../data/training_data'
 
 
 def train(iterations, load_iter, batch_size = 30):
     """
-    standard RNN for time_series data prediction
+    RNN for calving time prediction
     :param iterations: training iteration
     :param load_iter: continue training from checkpoint
     :param batch_size: batch_size
     """
+    # data generator
 
-    # parameters for window method
-    m = 30
-    n = 2
-    len = 15
-    time_step = m - (len - 1)
+
+    # parameters
+    m = 30 # total length of data for each cow
+    n = 2 # each date's feature
+    len = 15 # length of sliding window
+    time_step = m - (len - 1) # time_step for training
 
     # model parameters
     lstm_size = 20
@@ -53,10 +55,7 @@ def train(iterations, load_iter, batch_size = 30):
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     bias = tf.zeros([1])
-
-
     outputs = tf.reshape(outputs, [-1, lstm_size])
-
     logits = tf.sigmoid(tf.matmul(outputs, weights))
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])

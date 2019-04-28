@@ -184,6 +184,13 @@ def gene_data(num, activity_data, len = 7):
     return data, label
 
 def gene_batch(batch_size, data, label):
+    """
+    generate batch from data, label
+    :param batch_size: size
+    :param data: data
+    :param label: label
+    :return: batch
+    """
     time_step = data.shape[1]
     num_feature = data.shape[3]
     len = data.shape[2]

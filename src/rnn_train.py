@@ -2,6 +2,7 @@
 RNN for calving time prediction
 """
 import os
+import sys
 import glob
 from argparse import ArgumentParser
 
@@ -22,14 +23,14 @@ def train(iterations, load_iter, batch_size = 20):
     """
     # data generator
     data_dir = "../data/training_data"
-    calv_num, files = file_name(data_dir)
+    calv_num, files = datagenerator.file_name(data_dir)
 
     date_file_dir = "../data/calve_data.json"
-    calv_dates = calv_date(calv_num=calv_num, file_dir=date_file_dir)
+    calv_dates = datagenerator.calv_date(calv_num=calv_num, file_dir=date_file_dir)
 
-    activity = read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
+    activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
 
-    data, label = gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
+    data, label = datagenerator.gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
 
     # split training and testing
     train_input = data[0:40, :, :, :]

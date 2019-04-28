@@ -12,8 +12,6 @@ import tensorflow as tf
 import datagenerator
 sys.path.append('../data/')
 
-data_dir = '../data/training_data'
-
 
 def train(iterations, load_iter, batch_size = 30):
     """
@@ -32,6 +30,12 @@ def train(iterations, load_iter, batch_size = 30):
     activity = read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
 
     data, label = gene_data(num=len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
+
+    train_input = data[0:40, :, :, :]
+    train_output = label[0:40, :, :]
+
+    validate_input =
+    validate_output =
 
     # parameters
     m = 14 # total length of data for each cow

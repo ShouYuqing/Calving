@@ -88,7 +88,7 @@ def file_name(file_dir):
     :return: list of calv_num(string)
     """
     for root, dirs, files in os.walk(file_dir):
-        print("data:")
+        print("total data:")
         print(files)
     calv_num = []
     for file in files:
@@ -184,7 +184,17 @@ def gene_data(num, activity_data, len = 7):
     return data, label
 
 def gene_batch(batch_size, data, label):
-    
+    time_step = data.shape[1]
+    num_feature = data.shape[3]
+    len = data.shape[2]
+    batch_data = np.zeros((batch_size, time_step, len, num_feature))
+    batch_label = np.zeros((batch_size, time_step, 1))
+    n = int(np.random.randint(0, data.shape[0] - 1))
+    for i in np.arange(batch_size):
+        batch_data[i, :, :, :] = data[n, :, :, :]
+        batch_label[i, :, :] = label[n, :, :]
+    return batch_data, batch_label
+
 
 
 if __name__ == "__main__":
@@ -206,6 +216,6 @@ if __name__ == "__main__":
     data, label = gene_data(num = len(calv_num), activity_data = activity)
 
     # test gene_batch()
-
-
+    input, output = gene_batch(batch_size = 20, data = data, label = label)
+    print(input.shape)
 

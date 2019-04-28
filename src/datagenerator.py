@@ -172,10 +172,11 @@ def gene_data(num, activity_data, len = 7):
     label = np.zeros((num, time_step, 1))
     for n in np.arange(activity_data.shape[0]):
         for i in np.arange(time_step):
-            if i == time_step - 1:
-                label[n, i] = 1
-            else:
-                label[n, i] = 0
+            label[n, i] = time_step - i
+            #if i == time_step - 1:
+            #    label[n, i] = 1
+            #else:
+            #    label[n, i] = 0
             # select features
             m = 0
             for j in np.array([0, 1, 2, 4]):

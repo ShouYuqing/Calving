@@ -196,8 +196,8 @@ def gene_batch(batch_size, data, label):
     len = data.shape[2]
     batch_data = np.zeros((batch_size, time_step, len, num_feature))
     batch_label = np.zeros((batch_size, time_step, 1))
-    n = int(np.random.randint(0, data.shape[0] - 1))
     for i in np.arange(batch_size):
+        n = int(np.random.randint(0, data.shape[0] - 1))
         batch_data[i, :, :, :] = data[n, :, :, :]
         batch_label[i, :, :] = label[n, :, :]
     return batch_data, batch_label

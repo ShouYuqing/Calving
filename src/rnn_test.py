@@ -19,6 +19,7 @@ import datagenerator
 
 def test():
     # update data
+    #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data")
 
     # data generator
     data_dir = "../data/predicting_data"

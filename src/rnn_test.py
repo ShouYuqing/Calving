@@ -21,7 +21,7 @@ def test():
     # update data
 
     # data generator
-    data_dir = "../data/training_data"
+    data_dir = "../data/predicting_data"
     calv_num, files = datagenerator.file_name(data_dir)
 
     date_file_dir = "../data/calve_data.json"
@@ -42,7 +42,7 @@ def test():
     time_step = m - (len2 - 1)  # time_step size
 
     # model parameters
-    batch_size = 1
+    batch_size = data.shape[0]
     lstm_size = 20
     lstm_layers = 2
 
@@ -79,14 +79,20 @@ def test():
 
     saver = tf.train.Saver()
 
+    # data used for front-end
+    save_result = np.zeros((batch_size, 1))
     # load and restore the model
     with tf.Session() as sess:
         saver.restore(sess, '../models/iter10001')
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2 * n),
-                                                  y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+                                                  y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})# all result from ../prediction_data
         print(result)
+        for r in np.arange(result.shape[0]):
+            save_result[r] = result[r][result.shape[1]-1]
+        print(save_result)
+
 
 def lstm_cell(lstm_size):
     """

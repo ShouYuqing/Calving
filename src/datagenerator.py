@@ -160,6 +160,7 @@ def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/tra
 
 def gene_data(num, activity_data, len = 7):
     """
+    generate training data
     sliding window to generate data&label
     feature selection
     :param num: cow's number
@@ -177,12 +178,48 @@ def gene_data(num, activity_data, len = 7):
             #    label[n, i] = 1
             #else:
             #    label[n, i] = 0
-            # select features
             m = 0
+            # select features
             for j in np.array([0, 1, 2, 4]):
                 data[n, i, :, m] = activity_data[n, i:i + len, j]
                 m = m + 1
     return data, label
+
+def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 8, num_feature = 5):
+    """
+    generate data used for prediction
+    :param data_dir: prediction date dir
+    :param latest_date: latest date
+    :param size: data length(days of calving date)
+    :param num_feature: number of feature
+    :return: array of id and data
+    """
+    calv_num, files = file_name(data_dir)
+    dates = getdate(date = latest_date, days = size)
+    pred_data = np.zeros((len(calv_num), size, num_feature))
+    id = np.zeros((len(calv_num), 1))
+    for i in np.arange(len(calv_num)):
+        # array of id
+        id[i] = calv_num[i]
+        # read .json data of each cow
+        file_dir = data_dir + files[i]
+        f = open(file_dir, encoding='utf-8')
+        read_data = json.load(f)# all the activity data for a single cow
+        m = 0
+        for j in dates:
+            pred_data[i, m, :] = read_data[j]
+            m = m + 1
+    return pred_data, id
+
+        # sorted data
+        #read_data = sorted(read_data.keys())
+        #read_data = np.array(read_data)
+        #print(read_data)
+        #m = size - 1
+        #for j in :
+        #    activity[i, m, :] = read_data[j]
+        #    m = m - 1
+
 
 def gene_batch(batch_size, data, label):
     """
@@ -223,5 +260,9 @@ if __name__ == "__main__":
 
     # test gene_batch()
     input, output = gene_batch(batch_size = 20, data = data, label = label)
+
+    # test gene_pred()
+    p_data, id = gene_pred()
+    pre_data = gene_data(num = p_data.shape[0], activity_data = p_data)
 
 

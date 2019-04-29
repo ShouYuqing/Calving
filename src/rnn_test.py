@@ -19,21 +19,24 @@ import datagenerator
 
 def test():
     # update data
-    #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data")
+    #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data/")
 
     # data generator
-    data_dir = "../data/predict_data"
-    calv_num, files = datagenerator.file_name(data_dir)
+    #data_dir = "../data/predict_data"
+    #calv_num, files = datagenerator.file_name(data_dir)
 
-    date_file_dir = "../data/calve_data.json"
-    calv_dates = datagenerator.calv_date(calv_num = calv_num, file_dir = date_file_dir)
+    #date_file_dir = "../data/calve_data.json"
+    #calv_dates = datagenerator.calv_date(calv_num = calv_num, file_dir = date_file_dir)
 
-    activity = datagenerator.read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 14)  # (50, 14, 5)
-    data, label = datagenerator.gene_data(num = len(calv_num), activity_data = activity)  # (50, 8, 7, 4) && (50, 8, 1)
+    #activity = datagenerator.read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 14)  # (50, 14, 5)
+    #data, label = datagenerator.gene_data(num = len(calv_num), activity_data = activity)  # (50, 8, 7, 4) && (50, 8, 1)
 
     # validation data
-    validate_input = data[:, :, :, :]
-    validate_output = label[:, :, :]
+    #validate_input = data[:, :, :, :]
+    #validate_output = label[:, :, :]
+
+    # data generator
+    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 14, num_feature = 5)
 
     # model specification
     # parameters
@@ -56,7 +59,7 @@ def test():
 
     # drop out
     keep_prob = tf.placeholder(tf.float32, name='keep_prob')
-    # drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
+    #drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
 
     # initial state
     initial_state = cell.zero_state(batch_size, tf.float32)
@@ -67,9 +70,9 @@ def test():
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     b = tf.Variable(tf.ones([1]))
-    bias = tf.zeros([1])
+
     outputs = tf.reshape(outputs, [-1, lstm_size])
-    # logits = tf.sigmoid(tf.matmul(outputs, weights))
+    #logits = tf.sigmoid(tf.matmul(outputs, weights))
     logits = tf.matmul(outputs, weights) + b
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
@@ -86,9 +89,9 @@ def test():
     with tf.Session() as sess:
         saver.restore(sess, '../models/iter10001')
         # validation
-        val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
-        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2 * n),
-                                                  y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})# all result from ../prediction_data
+        #val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
+        val_x = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
+        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2 * n), keep_prob: 1.0})# all result from ../prediction_data
         print(result)
         for r in np.arange(result.shape[0]):
             save_result[r] = result[r][result.shape[1]-1]

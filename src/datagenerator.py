@@ -113,6 +113,7 @@ def calv_date(calv_num, file_dir):
 
 def getdate(date, days):
     """
+    Use lib datatime to deal with string time processing
     return list of date before n days
     :param date: present date
     :param days: prior days

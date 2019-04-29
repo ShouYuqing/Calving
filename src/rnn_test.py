@@ -79,7 +79,7 @@ def test():
 
     saver = tf.train.Saver()
 
-    # data used for front-end
+    # data for front-end
     save_result = np.zeros((batch_size, 1))
     # load and restore the model
     with tf.Session() as sess:

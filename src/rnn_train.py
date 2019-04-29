@@ -23,6 +23,8 @@ def train(iterations, load_iter, batch_size = 20):
     :param load_iter: continue training from checkpoint
     :param batch_size: batch_size
     """
+    # update data
+
     # data generator
     data_dir = "../data/training_data"
     calv_num, files = datagenerator.file_name(data_dir)

@@ -18,6 +18,8 @@ import datagenerator
 
 
 def test():
+    # update data
+
     # data generator
     data_dir = "../data/training_data"
     calv_num, files = datagenerator.file_name(data_dir)
@@ -29,8 +31,8 @@ def test():
     data, label = datagenerator.gene_data(num = len(calv_num), activity_data = activity)  # (50, 8, 7, 4) && (50, 8, 1)
 
     # validation data
-    validate_input = data[40:50, :, :, :]
-    validate_output = label[40:50, :, :]
+    validate_input = data[:, :, :, :]
+    validate_output = label[:, :, :]
 
     # model specification
     # parameters
@@ -40,7 +42,7 @@ def test():
     time_step = m - (len2 - 1)  # time_step size
 
     # model parameters
-    batch_size = 20
+    batch_size = 1
     lstm_size = 20
     lstm_layers = 2
 

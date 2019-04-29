@@ -159,7 +159,7 @@ def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/tra
             m = m - 1
     return activity
 
-def gene_data(num, activity_data, len = 7):
+def gene_data(num, activity_data, len = 5):
     """
     generate training data
     sliding window to generate data&label
@@ -186,7 +186,7 @@ def gene_data(num, activity_data, len = 7):
                 m = m + 1
     return data, label
 
-def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 8, num_feature = 5):
+def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 12, num_feature = 5):
     """
     generate data used for prediction
     :param data_dir: prediction date dir
@@ -211,16 +211,6 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
             pred_data[i, m, :] = read_data[j]
             m = m + 1
     return pred_data, id
-
-        # sorted data
-        #read_data = sorted(read_data.keys())
-        #read_data = np.array(read_data)
-        #print(read_data)
-        #m = size - 1
-        #for j in :
-        #    activity[i, m, :] = read_data[j]
-        #    m = m - 1
-
 
 def gene_batch(batch_size, data, label):
     """
@@ -263,7 +253,8 @@ if __name__ == "__main__":
     input, output = gene_batch(batch_size = 20, data = data, label = label)
 
     # test gene_pred()
-    p_data, id = gene_pred()
-    pre_data = gene_data(num = p_data.shape[0], activity_data = p_data)
+    p_data, id = gene_pred(data_dir = "../data/predict_data1/")
+    print(p_data.shape)
+    pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
 
 

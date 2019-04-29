@@ -4,18 +4,13 @@ get data from VM
 import paramiko
 from scp import SCPClient
 
-def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json"):
+def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, hostname = "168.61.55.8", username = "cloud", password = "cloud12345678!"):
     """
     get data through ssh
     :param dst: destination dir
     :param src: data src
     :return:
     """
-    port = 22
-    hostname = "40.112.218.137"
-    username = "hs"
-    password = "Shihan960324!"
-
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.load_system_host_keys()
@@ -28,7 +23,9 @@ def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json"):
 
     scp.close()
 
-
 if __name__ == "__main__":
+    # get training data
+    #ssh_get(src = "-r /home/cloud/date/training_data")
     #get predict data
-    ssh_get(src = "-r /home/hs/date/predict_data")
+    ssh_get(src = "-r /home/cloud/predict_data1")
+    ssh_get(src = "-r /home/cloud/predict_data2")

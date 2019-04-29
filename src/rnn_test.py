@@ -36,13 +36,13 @@ def test():
     #validate_output = label[:, :, :]
 
     # data generator
-    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 14, num_feature = 5)
+    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data1/", latest_date = "2019-03-19", size = 14, num_feature = 5)
 
     # model specification
     # parameters
-    m = 14  # data length
+    m = 12  # data length
     n = 4  # feature num
-    len2 = 7  # length of window
+    len2 = 5  # length of window
     time_step = m - (len2 - 1)  # time_step size
 
     # model parameters

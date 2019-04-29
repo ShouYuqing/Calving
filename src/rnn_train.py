@@ -44,9 +44,9 @@ def train(iterations, load_iter, batch_size = 20):
     validate_output = label[40:50, :, :]
 
     # parameters
-    m = 14 # data length
+    m = 12 # data length
     n = 4 # feature num
-    len2 = 7 # length of window
+    len2 = 5 # length of window
     time_step = m - (len2 - 1) # time_step size
 
     # model parameters

@@ -22,7 +22,7 @@ def test():
     #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data")
 
     # data generator
-    data_dir = "../data/predicting_data"
+    data_dir = "../data/predict_data"
     calv_num, files = datagenerator.file_name(data_dir)
 
     date_file_dir = "../data/calve_data.json"

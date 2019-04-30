@@ -102,7 +102,7 @@ def test(id):
 
     # send result to the front-end
     ssh_data.ssh_send()
-    print("--------send to the front end---------")
+    print("--------send to front-end---------")
 
 
 def lstm_cell(lstm_size):

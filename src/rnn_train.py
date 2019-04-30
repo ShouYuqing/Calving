@@ -67,7 +67,7 @@ def train(iterations, load_iter, batch_size = 20):
     #drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
 
     # initial state
-    initial_state = cell.zero_state(100, tf.float32)
+    initial_state = cell.zero_state(batch_size, tf.float32)
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)
@@ -76,11 +76,13 @@ def train(iterations, load_iter, batch_size = 20):
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     b = tf.Variable(tf.ones([1]))
     bias = tf.zeros([1])
+
     outputs = tf.reshape(outputs, [-1, lstm_size])
+    print("outputs.shape")
+    print(outputs.shape)
     #logits = tf.sigmoid(tf.matmul(outputs, weights))
     logits = tf.matmul(outputs, weights) + b
-    print("logits.shape")
-    print(logits.shape)
+
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     #predictions = tf.reshape(logits, [-1, time_step])
     predictions = tf.reshape(logits, [-1, 1])

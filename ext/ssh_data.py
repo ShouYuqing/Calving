@@ -23,6 +23,9 @@ def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, 
 
     scp.close()
 
+def ssh_send(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, hostname = "104.41.132.238", username = "cloud", password = "cloud123456!"):
+
+
 if __name__ == "__main__":
     # get training data
     #ssh_get(src = "-r /home/cloud/date/training_data")

@@ -15,7 +15,7 @@ sys.path.append('../data/')
 sys.path.append('../models/')
 sys.path.append('../ext/')
 import datagenerator
-#import ssh_data
+import ssh_data
 
 
 def test(id):
@@ -100,6 +100,7 @@ def test(id):
         json.dump(predict_result, file_obj)
 
     # send result to the front-end
+
 
 
 

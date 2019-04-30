@@ -20,10 +20,10 @@ import datagenerator
 import ssh_data
 
 
-def test(id):
+def test(f_id):
     """
     RNN prediction
-    :param id: data file id
+    :param f_id: data file id
     :return:
     """
     # update data
@@ -31,7 +31,7 @@ def test(id):
     #print("--------fetch data--------")
 
     # data generator
-    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
+    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
 
     # model specification
     # parameters
@@ -99,13 +99,13 @@ def test(id):
         item["probability"] = round(100 * save_result[i, 0], 2)
         predict_result.append(item)
     # result into json
-    file_dir = '../data/predict_result' + str(id) + '.json'
+    file_dir = '../data/predict_result' + str(f_id) + '.json'
     with open(file_dir, 'w') as file_obj:
         print("---------write into json---------")
         json.dump(predict_result, file_obj)
 
     # send result to the front-end
-    ssh_data.ssh_send(dst = "../data/predict_result" + str(id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
+    ssh_data.ssh_send(dst = "../data/predict_result" + str(f_id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
     print("--------send front-end---------")
 
 

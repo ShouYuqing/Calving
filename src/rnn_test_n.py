@@ -99,13 +99,13 @@ def test(id):
         item["probability"] = round(100 * save_result[i, 0], 2)
         predict_result.append(item)
     # result into json
-    file_dir = '../data/predict_result.json'
+    file_dir = '../data/predict_result' + str(id) + '.json'
     with open(file_dir, 'w') as file_obj:
         print("---------write into json---------")
         json.dump(predict_result, file_obj)
 
     # send result to the front-end
-    ssh_data.ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
+    ssh_data.ssh_send(dst = "../data/predict_result" + str(id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
     print("--------send front-end---------")
 
 
@@ -118,12 +118,12 @@ def lstm_cell(lstm_size):
     return tf.contrib.rnn.BasicLSTMCell(lstm_size)
 
 if __name__ == "__main__":
-    #parser = ArgumentParser()
-    #parser.add_argument("--data_id", type=int,
-    #                    dest="id", default=1,
-    #                    help="data file id: 1/2")
+    parser = ArgumentParser()
+    parser.add_argument("--data", type=int,
+                        dest="id", default=1,
+                        help="data file id: 1/2")
 
-    #args = parser.parse_args()
-    #test(**vars(args))
-    test(1)
+    args = parser.parse_args()
+    test(**vars(args))
+    #test(1)
     #test(2)

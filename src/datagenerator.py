@@ -208,6 +208,7 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
         read_data = json.load(f)# all the activity data for a single cow
         m = 0
         for j in dates:
+            print(dates)
             pred_data[i, m, :] = read_data[j]
             m = m + 1
     return pred_data, id

@@ -17,7 +17,12 @@ import datagenerator
 #import ssh_data
 
 
-def test():
+def test(id):
+    """
+    RNN prediction
+    :param id: data file id
+    :return: 
+    """
     # update data
     #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data/")
 
@@ -36,7 +41,7 @@ def test():
     #validate_output = label[:, :, :]
 
     # data generator
-    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data1/", latest_date = "2019-03-19", size = 14, num_feature = 5)
+    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
 
     # model specification
     # parameters
@@ -107,4 +112,10 @@ def lstm_cell(lstm_size):
     return tf.contrib.rnn.BasicLSTMCell(lstm_size)
 
 if __name__ == "__main__":
-    test()
+    parser = ArgumentParser()
+    parser.add_argument("--data_id", type=int,
+                        dest="id", default=1,
+                        help="data file id: 1/2")
+
+    args = parser.parse_args()
+    test(**vars(args))

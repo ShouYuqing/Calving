@@ -67,7 +67,7 @@ def train(iterations, load_iter, batch_size = 20):
     #drop = tf.contrib.rnn.DropWrapper(cell, output_keep_prob = keep_prob)
 
     # initial state
-    initial_state = cell.zero_state(batch_size, tf.float32)
+    initial_state = cell.zero_state(100, tf.float32)
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)

@@ -90,12 +90,14 @@ def test(id):
         save_result[:] = result
 
     # result as dict
-    predict_result = {}
+    predict_result = []
     for i in np.arange(id.shape[0]):
-        predict_result[str(int(id[i]))] = save_result[i, 0]
+        item = {}
+        item["id"] = int(id[i])
+        item["probability"] = save_result[i, 0]
+        predict_result.append(item)
     # result into json
     file_dir = '../data/predict_result.json'
-    # nums = {"name": "Mike", "age": 12}
     with open(file_dir, 'w') as file_obj:
         print("---------write into json---------")
         json.dump(predict_result, file_obj)

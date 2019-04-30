@@ -1,5 +1,5 @@
 """
-get data from VM
+communication between VM
 """
 import paramiko
 from scp import SCPClient

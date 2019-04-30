@@ -35,9 +35,9 @@ def train(iterations, load_iter, batch_size = 20):
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(label[0, 0, 0, 0])
-    print(label[0, 1, 0, 0])
-    print(label[0, 7, 0, 0])
+    print(label[0, 0, :])
+    print(label[0, 1, :])
+    print(label[0, 7, :])
     # split training and testing
     train_input = data[0:40, :, :, :]
     train_output = label[0:40, :, :]

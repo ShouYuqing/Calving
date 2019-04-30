@@ -52,9 +52,11 @@ def train(iterations, load_iter, batch_size = 20):
 
     # model parameters
     lstm_size = 20
-    lstm_layers = 6
+    lstm_layers = 2
 
     # placeholder
+    x = tf.placeholder(tf.float32, [None, time_step, len2 * n], name='input_x')
+    y_ = tf.placeholder(tf.float32, [None, time_step], name='output_y')
     x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
     y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
 

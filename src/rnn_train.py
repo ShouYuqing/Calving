@@ -32,7 +32,7 @@ def train(iterations, load_iter, batch_size = 20):
     date_file_dir = "../data/calve_data.json"
     calv_dates = datagenerator.calv_date(calv_num=calv_num, file_dir=date_file_dir)
 
-    activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 12, 5)
+    activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
     print(activity.shape)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)

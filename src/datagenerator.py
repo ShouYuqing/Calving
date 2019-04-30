@@ -244,7 +244,7 @@ if __name__ == "__main__":
     #dates = getdate(calv_dates[calv_num[1]], days=5)
 
     # test read_activity_data()
-    activity = read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 14)# (50, 14, 5)
+    activity = read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 12)# (50, 12, 5)
 
     # test gene_data()
     data, label = gene_data(num = len(calv_num), activity_data = activity)

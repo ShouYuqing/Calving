@@ -93,7 +93,7 @@ def test(id):
     predict_result = {}
     for i in np.arange(id.shape[0]):
         predict_result[str(id[i])] = save_result[i]
-
+    print(predict_result)
     # result into json
     file_dir = '../data/predict_result.json'
     # nums = {"name": "Mike", "age": 12}

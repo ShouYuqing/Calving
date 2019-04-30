@@ -171,10 +171,13 @@ def gene_data(num, activity_data, len = 5):
     """
     time_step = activity_data.shape[1] - (len - 1)
     data = np.zeros((num, time_step, len, 4))
-    label = np.zeros((num, time_step, 1))
+    label = np.zeros((num, time_step, len))
     for n in np.arange(activity_data.shape[0]):
         for i in np.arange(time_step):
-            label[n, i] = time_step - i
+            for z in np.arange(len):
+                label[n, i, z] = time_step - i + z
+        #for i in np.arange(len):
+        #    label[n, i] = time_step - i
             #if i == time_step - 1:
             #    label[n, i] = 1
             #else:
@@ -249,13 +252,14 @@ if __name__ == "__main__":
 
     # test gene_data()
     data, label = gene_data(num = len(calv_num), activity_data = activity)
+    print(label.shape)
 
     # test gene_batch()
-    input, output = gene_batch(batch_size = 20, data = data, label = label)
+    #input, output = gene_batch(batch_size = 20, data = data, label = label)
 
     # test gene_pred()
-    p_data, id = gene_pred(data_dir = "../data/predict_data1/")
-    pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
-    print(type(pre_data))
+    #p_data, id = gene_pred(data_dir = "../data/predict_data1/")
+    #pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
+    #print(type(pre_data))
 
 

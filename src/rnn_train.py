@@ -34,8 +34,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
 
-    data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(label.shape)
+    data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 5)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -110,7 +109,7 @@ def train(iterations, load_iter, batch_size = 20):
             input_x = input_x[:, rand, :, :]
             input_y = input_y[:, rand]
             print("input_y's shape")
-            print(input_y.reshape([-1, 1]).shape)
+            print(input_y.reshape([-1, ]).shape)
             print("input_x's shape")
             print(input_x.reshape(input_x.shape[0], len2, n).shape)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})

@@ -206,11 +206,11 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
         file_dir = data_dir + files[i]
         f = open(file_dir, encoding='utf-8')
         read_data = json.load(f)# all the activity data for a single cow
-        m = 0
+        m = size - 1
         for j in dates:
-            print(dates)
+            print(j)
             pred_data[i, m, :] = read_data[j]
-            m = m + 1
+            m = m - 1
     return pred_data, id
 
 def gene_batch(batch_size, data, label):

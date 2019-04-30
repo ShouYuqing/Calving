@@ -48,10 +48,11 @@ def train(iterations, load_iter, batch_size = 20):
     m = 12 # data length
     n = 4 # feature num
     len2 = 5 # length of window
-    time_step = m - (len2 - 1) # time_step size
+    #time_step = m - (len2 - 1) # time_step size
+    time_step = 1
 
     # model parameters
-    lstm_size = 20
+    lstm_size = 8
     lstm_layers = 2
 
     # placeholder
@@ -91,8 +92,12 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
-            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
+            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)#(8, 8, 5, 4)--->(8, 5, 4)
+            input_x = input_x[:, i % 8, 5, 4]
+            input_y = input_x[:, i % 8]
+            input_x = input_x.reshape((input_x.shape[0], 1, input_x.shape[1], input_x.shape[2]))
+            input_y = input_y.reshape((input_y.shape[0], 1))
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x, y_: input_y, keep_prob: 0.5})
 
             if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
@@ -104,7 +109,11 @@ def train(iterations, load_iter, batch_size = 20):
 
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = batch_size, data = validate_input, label = validate_output)
-        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+        val_x = val_x[:, 4, 5, 4]
+        val_y = val_x[:, 4]
+        val_x = val_x.reshape((val_x.shape[0], 1, val_x.shape[1], val_x.shape[2]))
+        val_y = val_y.reshape((val_y.shape[0], 1))
+        result = sess.run(predictions, feed_dict={x: val_x, y_: val_y, keep_prob: 1.0})
         cost = sess.run(cost, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         print(result)
         print(cost)

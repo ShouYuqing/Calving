@@ -252,7 +252,7 @@ if __name__ == "__main__":
 
     # test gene_data()
     data, label = gene_data(num = len(calv_num), activity_data = activity)
-    print(label.shape)
+    print(label)
 
     # test gene_batch()
     #input, output = gene_batch(batch_size = 20, data = data, label = label)

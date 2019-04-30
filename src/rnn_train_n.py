@@ -95,11 +95,11 @@ def train(iterations, load_iter, batch_size = 20):
             # read data
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)#(8, 8, 5, 4)--->(8, 5, 4)
             for j in np.arange(8):
-                input_x = input_x[:, i % 8, :, :]
-                input_y = input_y[:, i % 8]
-                input_x = input_x.reshape((input_x.shape[0], 1, input_x.shape[1]*input_x.shape[2]))
-                input_y = input_y.reshape((input_y.shape[0], 1))
-                _, loss = sess.run([optimizer, cost], feed_dict={x: input_x, y_: input_y, keep_prob: 0.5})
+                input_x2 = input_x[:, j, :, :]
+                input_y2 = input_y[:, j]
+                input_x3 = input_x2.reshape((input_x.shape[0], 1, input_x.shape[1]*input_x.shape[2]))
+                input_y3 = input_y2.reshape((input_y.shape[0], 1))
+                _, loss = sess.run([optimizer, cost], feed_dict={x: input_x3, y_: input_y3, keep_prob: 0.5})
 
             if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))

@@ -70,7 +70,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)
-
+    print(outputs.shape)
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     b = tf.Variable(tf.ones([1]))
@@ -91,16 +91,6 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
-            # shuffle
-            new_data = np.zeros((50, 8, 5, 4))
-            new_label = np.zeros((50, 8, 1))
-            for i in np.arange(data.shape[1]):
-                rand = np.random.randint(low=0, high=7)
-                new_data[:, i, :, :] = data[:, rand, :, :]
-                new_label[:, i, :] = label[:, rand, :]
-            train_input = new_data[0:40, :, :, :]
-            train_output = new_label[0:40, :, :]
-
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 

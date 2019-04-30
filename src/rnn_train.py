@@ -71,6 +71,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)
+    print("shape1")
     print(outputs.shape)
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))

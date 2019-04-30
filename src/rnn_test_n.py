@@ -96,7 +96,7 @@ def test(id):
     for i in np.arange(id.shape[0]):
         item = {}
         item["id"] = int(id[i])
-        item["probability"] = round(10 * save_result[i, 0], 4)
+        item["probability"] = round(100 * save_result[i, 0], 2)
         predict_result.append(item)
     # result into json
     file_dir = '../data/predict_result.json'

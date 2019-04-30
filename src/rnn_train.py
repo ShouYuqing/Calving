@@ -96,11 +96,11 @@ def train(iterations, load_iter, batch_size = 20):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            print("input_x's shape")
-            print(input_x.shape)
+            print("input_y's shape")
+            print(input_y.shape)
             rand = np.random.randint(low = 0, high = 7)
             input_x = input_x[:, rand, :, :]
-            input_y = input_y[:, rand, :, :]
+            input_y = input_y[:, rand]
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0]*input_x.shape[1], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})
             #_, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
@@ -116,7 +116,7 @@ def train(iterations, load_iter, batch_size = 20):
         val_x, val_y = datagenerator.gene_batch(batch_size = batch_size, data = validate_input, label = validate_output)
         rand = np.random.randint(low=0, high=7)
         val_x = val_x[:, rand, :, :]
-        val_y = val_y[:, rand, :, :]
+        val_y = val_y[:, rand]
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0]*val_x.shape[1], len2 * n),
                                                   y_: val_y.reshape([-1, 1]), keep_prob: 1.0})
         #result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})

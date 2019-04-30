@@ -110,7 +110,7 @@ def train(iterations, load_iter, batch_size = 20):
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = batch_size, data = validate_input, label = validate_output)
         val_x = val_x[:, 4, 5, 4]
-        val_y = val_x[:, 4]
+        val_y = val_y[:, 4]
         val_x = val_x.reshape((val_x.shape[0], 1, val_x.shape[1], val_x.shape[2]))
         val_y = val_y.reshape((val_y.shape[0], 1))
         result = sess.run(predictions, feed_dict={x: val_x, y_: val_y, keep_prob: 1.0})

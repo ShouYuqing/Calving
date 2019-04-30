@@ -36,16 +36,6 @@ def train(iterations, load_iter, batch_size = 20):
     print(activity.shape)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    # shuffle
-    new_data = np.zeros((50, 8, 5, 4))
-    new_label = np.zeros((50, 8, 1))
-    for i in np.arange(data.shape[1]):
-        rand = np.random.randint(low = 0, high = 7)
-        new_data[:, i, :, :] = data[:, rand, :, :]
-        new_label[:, i, :] = label[:, rnd, :]
-    data = new_data
-    label = new_label
-    print(label)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -101,6 +91,16 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
+            # shuffle
+            new_data = np.zeros((50, 8, 5, 4))
+            new_label = np.zeros((50, 8, 1))
+            for i in np.arange(data.shape[1]):
+                rand = np.random.randint(low=0, high=7)
+                new_data[:, i, :, :] = data[:, rand, :, :]
+                new_label[:, i, :] = label[:, rand, :]
+            data = new_data
+            label = new_label
+
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 

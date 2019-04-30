@@ -21,7 +21,7 @@ def test(id):
     """
     RNN prediction
     :param id: data file id
-    :return: 
+    :return:
     """
     # update data
     #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data/")
@@ -51,7 +51,7 @@ def test(id):
     time_step = m - (len2 - 1)  # time_step size
 
     # model parameters
-    batch_size = data.shape[0]
+    batch_size = p_data.shape[0]
     lstm_size = 20
     lstm_layers = 2
 

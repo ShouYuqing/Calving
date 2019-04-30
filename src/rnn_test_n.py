@@ -23,7 +23,7 @@ import ssh_data
 def test(f_id):
     """
     RNN prediction
-    :param f_id: data file id
+    :param f_id: prediction data file id
     :return:
     """
     # update data

@@ -33,11 +33,8 @@ def train(iterations, load_iter, batch_size = 20):
     calv_dates = datagenerator.calv_date(calv_num=calv_num, file_dir=date_file_dir)
 
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
-    print(activity.shape)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(data.shape)
-    print(label.shape)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -57,8 +54,10 @@ def train(iterations, load_iter, batch_size = 20):
     lstm_layers = 2
 
     # placeholder
-    x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
-    y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
+    #x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
+    x = tf.placeholder(tf.float32, [None, len2, n], name='input_x')
+    #y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
+    y_ = tf.placeholder(tf.float32, [None, 1], name='output_y')
 
     # cell
     cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size = lstm_size) for _ in range(lstm_layers)])
@@ -80,6 +79,8 @@ def train(iterations, load_iter, batch_size = 20):
     outputs = tf.reshape(outputs, [-1, lstm_size])
     #logits = tf.sigmoid(tf.matmul(outputs, weights))
     logits = tf.matmul(outputs, weights) + b
+    print("logits.shape")
+    print(logits.shape)
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
 
@@ -94,7 +95,8 @@ def train(iterations, load_iter, batch_size = 20):
         for i in range(iterations):
             # read data
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0]*input_x.shape[1], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})
+            #_, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:
                 print('Iter:{}, Loss:{}'.format(iteration, loss))
@@ -106,8 +108,10 @@ def train(iterations, load_iter, batch_size = 20):
 
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = batch_size, data = validate_input, label = validate_output)
-        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
-        cost = sess.run(cost, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+        result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0]*val_x.shape[1], len2 * n),
+                                                  y_: val_y.reshape([-1, 1]), keep_prob: 1.0})
+        #result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
+        #cost = sess.run(cost, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2*n), y_: val_y.reshape([-1, time_step]), keep_prob: 1.0})
         print(result)
         print(cost)
 

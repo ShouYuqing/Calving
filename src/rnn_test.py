@@ -105,6 +105,8 @@ def test(id):
         #print(save_result)
 
 
+
+
 def lstm_cell(lstm_size):
     """
     construct LSTM cell with size

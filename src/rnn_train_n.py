@@ -14,7 +14,7 @@ import tensorflow as tf
 sys.path.append('../data/')
 sys.path.append('../ext/')
 import datagenerator
-#import ssh_data
+import ssh_data
 
 
 def train(iterations, load_iter, batch_size = 20):
@@ -25,7 +25,7 @@ def train(iterations, load_iter, batch_size = 20):
     :param batch_size: batch_size
     """
     # update data
-    #ssh_get(src="-r /home/cloud/date/training_data")
+    #ssh_data.ssh_get(src="-r /home/cloud/date/training_data")
 
     # data generator
     data_dir = "../data/training_data"

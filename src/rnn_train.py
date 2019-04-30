@@ -82,7 +82,8 @@ def train(iterations, load_iter, batch_size = 20):
     print("logits.shape")
     print(logits.shape)
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
-    predictions = tf.reshape(logits, [-1, time_step])
+    #predictions = tf.reshape(logits, [-1, time_step])
+    predictions = tf.reshape(logits, [-1, 1])
 
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)

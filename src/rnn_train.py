@@ -32,9 +32,12 @@ def train(iterations, load_iter, batch_size = 20):
     date_file_dir = "../data/calve_data.json"
     calv_dates = datagenerator.calv_date(calv_num=calv_num, file_dir=date_file_dir)
 
-    activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 14, 5)
+    activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=14)  # (50, 12, 5)
+    print(activity.shape)
 
-    data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 7, 4) && (50, 8, 1)
+    data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
+    print(data.shape)
+    print(label.shape)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -79,9 +82,6 @@ def train(iterations, load_iter, batch_size = 20):
     logits = tf.matmul(outputs, weights) + b
     # [batch_size*binary_dim, 1] ==> [batch_size, binary_dim]
     predictions = tf.reshape(logits, [-1, time_step])
-
-    # save for prediction
-    tf.add_to_collection('trained_networl', y)
 
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)

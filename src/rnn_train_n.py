@@ -35,9 +35,7 @@ def train(iterations, load_iter, batch_size = 20):
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(label[0, 0, :])
-    print(label[0, 1, :])
-    print(label[0, 7, :])
+
     # split training and testing
     train_input = data[0:40, :, :, :]
     train_output = label[0:40, :, :]
@@ -106,10 +104,9 @@ def train(iterations, load_iter, batch_size = 20):
 
         # validation
         val_x, val_y = datagenerator.gene_batch(batch_size = batch_size, data = validate_input, label = validate_output)
-        result = sess.run(predictions, feed_dict={x: val_x[:, j, :, :].reshape((val_x.shape[0], 1, val_x.shape[2]*val_x.shape[3])), y_: val_y[:, j].reshape((val_y.shape[0], 1)), keep_prob: 1.0})
-        cost = sess.run(cost, feed_dict={x: val_x[:, j, :, :].reshape((val_x.shape[0], 1, val_x.shape[2]*val_x.shape[3])), y_: val_y[:, j].reshape((val_y.shape[0], 1)), keep_prob: 1.0})
+        result = sess.run(predictions, feed_dict={x: val_x[:, 7, :, :].reshape((val_x.shape[0], 1, val_x.shape[2]*val_x.shape[3])), y_: val_y[:, 7].reshape((val_y.shape[0], 1)), keep_prob: 1.0})
+        cost = sess.run(cost, feed_dict={x: val_x[:, 7, :, :].reshape((val_x.shape[0], 1, val_x.shape[2]*val_x.shape[3])), y_: val_y[:, 7].reshape((val_y.shape[0], 1)), keep_prob: 1.0})
         print(result)
-        print(result.shape)
         print(cost)
 
 def lstm_cell(lstm_size):

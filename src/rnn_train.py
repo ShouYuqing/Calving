@@ -98,8 +98,8 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
-            #input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            input_x, input_y =
+            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
+            #input_x, input_y =
             print("input_y's shape")
             print(input_y.shape)
             print("input_x's shape")

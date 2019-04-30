@@ -114,10 +114,12 @@ def lstm_cell(lstm_size):
     return tf.contrib.rnn.BasicLSTMCell(lstm_size)
 
 if __name__ == "__main__":
-    parser = ArgumentParser()
-    parser.add_argument("--data_id", type=int,
-                        dest="id", default=1,
-                        help="data file id: 1/2")
+    #parser = ArgumentParser()
+    #parser.add_argument("--data_id", type=int,
+    #                    dest="id", default=1,
+    #                    help="data file id: 1/2")
 
-    args = parser.parse_args()
-    test(**vars(args))
+    #args = parser.parse_args()
+    #test(**vars(args))
+    test(1)
+    test(2)

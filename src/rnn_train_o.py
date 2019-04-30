@@ -36,8 +36,16 @@ def train(iterations, load_iter, batch_size = 20):
     print(activity.shape)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(data.shape)
-    print(label.shape)
+    # shuffle
+    new_data = np.zeros((50, 8, 5, 4))
+    new_label = np.zeros((50, 8, 1))
+    for i in np.arange(data.shape[1]):
+        rand = np.random.randint(low = 0, high = 7)
+        new_data[:, i, :, :] = data[:, rand, :, :]
+        new_label[:, i, :] = label[:, rnd, :]
+    data = new_data
+    label = new_label
+    print(label)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -54,7 +62,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # model parameters
     lstm_size = 20
-    lstm_layers = 2
+    lstm_layers = 6
 
     # placeholder
     x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')

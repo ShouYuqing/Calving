@@ -33,11 +33,11 @@ def train(iterations, load_iter, batch_size = 20):
     calv_dates = datagenerator.calv_date(calv_num=calv_num, file_dir=date_file_dir)
 
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
-    print(activity.shape)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
-    print(data[0, 0, 0, 0])
-    print(data[0, 1, 0, 0])
+    print(label[0, 0, 0, 0])
+    print(label[0, 1, 0, 0])
+    print(label[0, 7, 0, 0])
     # split training and testing
     train_input = data[0:40, :, :, :]
     train_output = label[0:40, :, :]
@@ -72,7 +72,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)
-    print(outputs.shape)
+
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     b = tf.Variable(tf.ones([1]))

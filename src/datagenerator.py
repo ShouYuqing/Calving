@@ -256,6 +256,6 @@ if __name__ == "__main__":
     # test gene_pred()
     p_data, id = gene_pred(data_dir = "../data/predict_data1/")
     pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
-    print(type(pre_data))
+    print(pre_data.shape)
 
 

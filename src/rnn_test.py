@@ -99,6 +99,7 @@ def test(id):
         val_x = np.array(val_x)
         result = sess.run(predictions, feed_dict={x: val_x.reshape(val_x.shape[0], val_x.shape[1], len2 * n), keep_prob: 1.0})# all result from ../prediction_data
         print(result)
+        print(result.shape)
         #for r in np.arange(result.shape[0]):
         #    save_result[r] = result[r][result.shape[1]-1]
         #print(save_result)

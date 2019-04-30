@@ -1,5 +1,5 @@
 """
-newv ersion
+newest version
 RNN training
 """
 import os

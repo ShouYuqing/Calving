@@ -39,7 +39,8 @@ def ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_
 if __name__ == "__main__":
     # get training data
     #ssh_get(src = "-r /home/cloud/date/training_data")
-    #get predict data
+
+    # get predict data
     #ssh_get(src = "-r /home/cloud/predict_data1")
     #ssh_get(src = "-r /home/cloud/predict_data2")
 

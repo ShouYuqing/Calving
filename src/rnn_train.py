@@ -102,7 +102,7 @@ def train(iterations, load_iter, batch_size = 20):
             print(rand)
             input_x = input_x[:, rand, :, :]
             input_y = input_y[:, rand]
-            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0]*input_x.shape[1], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})
+            _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})
             #_, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 
             if iteration % 100 == 0:

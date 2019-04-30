@@ -4,6 +4,7 @@ RNN prediction
 import os
 import sys
 import glob
+import json
 from argparse import ArgumentParser
 
 import numpy as np
@@ -24,21 +25,7 @@ def test(id):
     :return:
     """
     # update data
-    #ssh_data.ssh_get(src = "-r /home/hs/date/predict_data/")
-
-    # data generator
-    #data_dir = "../data/predict_data"
-    #calv_num, files = datagenerator.file_name(data_dir)
-
-    #date_file_dir = "../data/calve_data.json"
-    #calv_dates = datagenerator.calv_date(calv_num = calv_num, file_dir = date_file_dir)
-
-    #activity = datagenerator.read_activity_data(calv_num = calv_num, calv_date = calv_dates, files = files, size = 14)  # (50, 14, 5)
-    #data, label = datagenerator.gene_data(num = len(calv_num), activity_data = activity)  # (50, 8, 7, 4) && (50, 8, 1)
-
-    # validation data
-    #validate_input = data[:, :, :, :]
-    #validate_output = label[:, :, :]
+    #ssh_get(src = "-r /home/cloud/predict_data" + str(id))
 
     # data generator
     p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
@@ -95,13 +82,30 @@ def test(id):
         saver.restore(sess, '../models/iter10001')
         # validation
         #val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
-        val_x, _ = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
+        val_x, id = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
         val_x = np.array(val_x)
         result = sess.run(predictions, feed_dict={x: val_x[:, 7, :, :].reshape((val_x.shape[0], 1, val_x.shape[2] * val_x.shape[3])), keep_prob: 1.0})# all result from ../prediction_data(num, 8, 5, 4)
+        print(id)
         print(result)
-        #for r in np.arange(result.shape[0]):
-        #    save_result[r] = result[r][result.shape[1]-1]
-        #print(save_result)
+        save_result[:] = result
+
+    # result as dict
+    predict_result = {}
+    for i in np.arange(id.shape[0]):
+        predict_result[str(id[i])] = save_result[i]
+
+    # result into json
+    file_dir = '../data/predict_result.json'
+    # nums = {"name": "Mike", "age": 12}
+    with open(file_dir, 'w') as file_obj:
+        print("---------write into json---------")
+        json.dump(predict_result, file_obj)
+
+    # send result to the front-end
+
+
+
+
 
 
 def lstm_cell(lstm_size):

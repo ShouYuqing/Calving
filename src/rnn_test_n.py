@@ -1,6 +1,7 @@
 """
 newest version
 RNN prediction
+communication between VM
 """
 import os
 import sys

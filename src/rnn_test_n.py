@@ -27,7 +27,8 @@ def test(id):
     :return:
     """
     # update data
-    #ssh_get(src = "-r /home/cloud/predict_data" + str(id))
+    ssh_get(src = "-r /home/cloud/predict_data" + str(id))
+    print("--------fetch data--------")
 
     # data generator
     p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
@@ -105,7 +106,7 @@ def test(id):
 
     # send result to the front-end
     ssh_data.ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
-    print("--------send to front-end---------")
+    print("--------send front-end---------")
 
 
 def lstm_cell(lstm_size):

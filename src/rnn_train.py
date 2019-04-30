@@ -100,14 +100,14 @@ def train(iterations, load_iter, batch_size = 20):
             print(input_y.shape)
             print("input_x's shape")
             print(input_x.shape)
-            print("input_y's shape")
-            print(input_y.reshape([-1, 1]).shape)
-            print("input_x's shape")
-            print(input_x.reshape(input_x.shape[0], len2, n).shape)
             rand = np.random.randint(low = 0, high = 7)
             print(rand)
             input_x = input_x[:, rand, :, :]
             input_y = input_y[:, rand]
+            print("input_y's shape")
+            print(input_y.reshape([-1, 1]).shape)
+            print("input_x's shape")
+            print(input_x.reshape(input_x.shape[0], len2, n).shape)
             _, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], len2, n), y_: input_y.reshape([-1, 1]), keep_prob: 0.5})
             #_, loss = sess.run([optimizer, cost], feed_dict={x: input_x.reshape(input_x.shape[0], input_x.shape[1], len2*n), y_: input_y.reshape([-1, time_step]), keep_prob: 0.5})
 

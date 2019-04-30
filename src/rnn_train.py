@@ -98,6 +98,12 @@ def train(iterations, load_iter, batch_size = 20):
             input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
             print("input_y's shape")
             print(input_y.shape)
+            print("input_x's shape")
+            print(input_x.shape)
+            print("input_y's shape")
+            print(input_y.reshape([-1, 1]).shape)
+            print("input_x's shape")
+            print(input_x.reshape(input_x.shape[0], len2, n).shape)
             rand = np.random.randint(low = 0, high = 7)
             print(rand)
             input_x = input_x[:, rand, :, :]

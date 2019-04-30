@@ -71,16 +71,13 @@ def train(iterations, load_iter, batch_size = 20):
 
     # cell output
     outputs, final_state = tf.nn.dynamic_rnn(cell, x, initial_state = initial_state)
-    print("shape1")
-    print(outputs.shape)
+
     # output layer
     weights = tf.Variable(tf.truncated_normal([lstm_size, 1], stddev=0.01))
     b = tf.Variable(tf.ones([1]))
     bias = tf.zeros([1])
 
     outputs = tf.reshape(outputs, [-1, lstm_size])
-    print("outputs.shape")
-    print(outputs.shape)
     #logits = tf.sigmoid(tf.matmul(outputs, weights))
     logits = tf.matmul(outputs, weights) + b
 
@@ -98,8 +95,8 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
-            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
-            #input_x, input_y =
+            #input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
+            input_x, input_y =
             print("input_y's shape")
             print(input_y.shape)
             print("input_x's shape")

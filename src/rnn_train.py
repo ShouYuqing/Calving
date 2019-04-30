@@ -35,6 +35,7 @@ def train(iterations, load_iter, batch_size = 20):
     activity = datagenerator.read_activity_data(calv_num=calv_num, calv_date=calv_dates, files=files, size=12)  # (50, 12, 5)
 
     data, label = datagenerator.gene_data(num= len(calv_num), activity_data=activity)# (50, 8, 5, 4) && (50, 8, 1)
+    print(label.shape)
 
     # split training and testing
     train_input = data[0:40, :, :, :]
@@ -57,7 +58,7 @@ def train(iterations, load_iter, batch_size = 20):
     #x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
     x = tf.placeholder(tf.float32, [None, len2, n], name='input_x')
     #y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
-    y_ = tf.placeholder(tf.float32, [None, 1], name='output_y')
+    y_ = tf.placeholder(tf.float32, [None, len2], name='output_y')
 
     # cell
     cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size = lstm_size) for _ in range(lstm_layers)])
@@ -98,7 +99,8 @@ def train(iterations, load_iter, batch_size = 20):
         iteration = 1
         for i in range(iterations):
             # read data
-            input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
+            #input_x, input_y = datagenerator.gene_batch(batch_size = batch_size, data = train_input, label = train_output)
+            input_x, input_y =
             print("input_y's shape")
             print(input_y.shape)
             print("input_x's shape")

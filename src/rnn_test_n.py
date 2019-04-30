@@ -27,7 +27,7 @@ def test(f_id):
     :return:
     """
     # update data
-    #ssh_data.ssh_get(src = "-r /home/cloud/predict_data" + str(id))
+    #ssh_data.ssh_get(src = "-r /home/cloud/predict_data" + str(f_id))
     #print("--------fetch data--------")
 
     # data generator
@@ -120,7 +120,7 @@ def lstm_cell(lstm_size):
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--data", type=int,
-                        dest="id", default=1,
+                        dest="f_id", default=1,
                         help="data file id: 1/2")
 
     args = parser.parse_args()

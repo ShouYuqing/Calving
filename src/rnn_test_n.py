@@ -82,18 +82,16 @@ def test(id):
         saver.restore(sess, '../models/iter10001')
         # validation
         #val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
-        val_x, id = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
+        val_x, _ = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
         val_x = np.array(val_x)
         result = sess.run(predictions, feed_dict={x: val_x[:, 7, :, :].reshape((val_x.shape[0], 1, val_x.shape[2] * val_x.shape[3])), keep_prob: 1.0})# all result from ../prediction_data(num, 8, 5, 4)
-        print(id)
         print(result)
         save_result[:] = result
-
+        
     # result as dict
     predict_result = {}
     for i in np.arange(id.shape[0]):
         predict_result[str(id[i])] = save_result[i]
-    print(predict_result)
     # result into json
     file_dir = '../data/predict_result.json'
     # nums = {"name": "Mike", "age": 12}

@@ -97,7 +97,7 @@ def test(id):
         #val_x, val_y = datagenerator.gene_batch(batch_size=batch_size, data=validate_input, label=validate_output)
         val_x, _ = datagenerator.gene_data(num=p_data.shape[0], activity_data=p_data, len = len2)
         val_x = np.array(val_x)
-        result = sess.run(predictions, feed_dict={x: val_x[:, j, :, :].reshape((val_x.shape[0], 1, val_x.shape[2] * val_x.shape[3])), keep_prob: 1.0})# all result from ../prediction_data(num, 8, 5, 4)
+        result = sess.run(predictions, feed_dict={x: val_x[:, 7, :, :].reshape((val_x.shape[0], 1, val_x.shape[2] * val_x.shape[3])), keep_prob: 1.0})# all result from ../prediction_data(num, 8, 5, 4)
         print(result)
         #for r in np.arange(result.shape[0]):
         #    save_result[r] = result[r][result.shape[1]-1]

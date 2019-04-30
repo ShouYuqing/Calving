@@ -103,7 +103,7 @@ def test(id):
         json.dump(predict_result, file_obj)
 
     # send result to the front-end
-    ssh_data.ssh_send()
+    ssh_data.ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
     print("--------send to front-end---------")
 
 

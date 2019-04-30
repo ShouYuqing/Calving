@@ -100,11 +100,8 @@ def test(id):
         json.dump(predict_result, file_obj)
 
     # send result to the front-end
-
-
-
-
-
+    ssh_data.ssh_send()
+    print("--------send to the front end---------")
 
 
 def lstm_cell(lstm_size):

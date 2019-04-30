@@ -23,12 +23,25 @@ def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, 
 
     scp.close()
 
-def ssh_send(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, hostname = "104.41.132.238", username = "cloud", password = "cloud123456!"):
+def ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238", username = "cloud", password = "cloud123456!"):
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.load_system_host_keys()
+    ssh.connect(hostname=hostname, port=port, username=username, password=password,
+                pkey=None, key_filename=None, timeout=None, allow_agent=True,
+                look_for_keys=True, compress=False)
 
+    with SCPClient(ssh.get_transport(), sanitize=lambda x: x) as scp:
+        scp.put(dst, src)
+
+    scp.close()
 
 if __name__ == "__main__":
     # get training data
     #ssh_get(src = "-r /home/cloud/date/training_data")
     #get predict data
-    ssh_get(src = "-r /home/cloud/predict_data1")
-    ssh_get(src = "-r /home/cloud/predict_data2")
+    #ssh_get(src = "-r /home/cloud/predict_data1")
+    #ssh_get(src = "-r /home/cloud/predict_data2")
+
+    # send data
+    ssh_send()

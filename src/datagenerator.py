@@ -154,6 +154,7 @@ def read_activity_data(calv_num, calv_date, files, size, data_dir = "../data/tra
         f = open(file_dir, encoding='utf-8')
         read_data = json.load(f)# all the activity data for a single cow
         m = size - 1
+        print(calv_num[i])
         for j in calv_dates:
             activity[i, m, :] = read_data[j]
             m = m - 1

@@ -1,6 +1,6 @@
 """
 newest version
-RNN training
+LSTM training
 """
 import os
 import sys

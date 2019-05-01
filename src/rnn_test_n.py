@@ -1,6 +1,6 @@
 """
 newest version
-RNN prediction
+LSTM prediction
 communication between VM
 """
 import os

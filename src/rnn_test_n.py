@@ -97,7 +97,7 @@ def test(f_id):
         item = {}
         item["id"] = int(id[i])
         item["probability"] = round(100 * save_result[i, 0], 2)
-        item["ts"] = pred_time_stamp[str(id[i])]
+        item["ts"] = pred_time_stamp[str(int(id[i]))]
         predict_result.append(item)
     # result into json
     file_dir = '../data/predict_result' + str(f_id) + '.json'

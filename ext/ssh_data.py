@@ -23,7 +23,7 @@ def ssh_get(dst = "../data/", src = "/home/hs/date/calve_data.json", port = 22, 
 
     scp.close()
 
-def ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238", username = "cloud", password = "cloud123456!"):
+def ssh_send(dst = "../data/predict_result.json", src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "168.62.170.23", username = "cloud", password = "cloud123456!"):
     """
     send data to the VM
     :param dst: dst

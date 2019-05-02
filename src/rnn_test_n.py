@@ -104,7 +104,7 @@ def test(f_id):
         print("---------write result into json---------")
         json.dump(predict_result, file_obj)
 
-    file_dir = '../data/pred_time_stamp' + '.json'
+    file_dir = '../data/pred_time_stamp' + str(f_id) + '.json'
     with open(file_dir, 'w') as file_obj:
         print("---------write time_stamp into json---------")
         json.dump(pred_time_stamp, file_obj)
@@ -112,7 +112,7 @@ def test(f_id):
     # send result to the front-end
     ssh_data.ssh_send(dst = "../data/predict_result" + str(f_id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "168.62.170.23")
     print("--------send result to front-end---------")
-    ssh_data.ssh_send(dst="../data/pred_time_stamp" '.json', src="/home/cloud/TEMP_FRONT_END/build/",
+    ssh_data.ssh_send(dst="../data/pred_time_stamp" + str(f_id) +'.json', src="/home/cloud/TEMP_FRONT_END/build/",
                       port=22, hostname="168.62.170.23")
     print("--------send time_stamp to front-end---------")
 

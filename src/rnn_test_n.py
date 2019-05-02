@@ -101,7 +101,7 @@ def test(f_id):
     # result into json
     file_dir = '../data/predict_result' + str(f_id) + '.json'
     with open(file_dir, 'w') as file_obj:
-        print("---------write into json---------")
+        print("---------write result into json---------")
         json.dump(predict_result, file_obj)
 
     file_dir = '../data/pred_time_stamp' + '.json'

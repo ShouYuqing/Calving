@@ -31,7 +31,7 @@ def test(f_id):
     #print("--------fetch data--------")
 
     # data generator
-    p_data, id = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
+    p_data, id, pred_time_stamp = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
 
     # model specification
     # parameters
@@ -104,9 +104,17 @@ def test(f_id):
         print("---------write into json---------")
         json.dump(predict_result, file_obj)
 
+    file_dir = '../data/pred_time_stamp' + '.json'
+    with open(file_dir, 'w') as file_obj:
+        print("---------write time_stamp into json---------")
+        json.dump(pred_time_stamp, file_obj)
+
     # send result to the front-end
-    ssh_data.ssh_send(dst = "../data/predict_result" + str(f_id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "104.41.132.238")
-    print("--------send front-end---------")
+    ssh_data.ssh_send(dst = "../data/predict_result" + str(f_id) + '.json', src = "/home/cloud/TEMP_FRONT_END/build/", port = 22, hostname = "168.62.170.23")
+    print("--------send result to front-end---------")
+    ssh_data.ssh_send(dst="../data/pred_time_stamp" '.json', src="/home/cloud/TEMP_FRONT_END/build/",
+                      port=22, hostname="168.62.170.23")
+    print("--------send time_stamp to front-end---------")
 
 
 def lstm_cell(lstm_size):

@@ -199,6 +199,7 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
     calv_num, files = file_name(data_dir)
     dates = getdate(date = latest_date, days = size)
     pred_data = np.zeros((len(calv_num), size, num_feature))
+    pred_time_stamp = {}
     id = np.zeros((len(calv_num), 1))
     for i in np.arange(len(calv_num)):
         # array of id
@@ -208,11 +209,13 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
         f = open(file_dir, encoding='utf-8')
         read_data = json.load(f)# all the activity data for a single cow
         m = 0
+        # read time_stamp
+        pred_time_stamp[str(calv_num[i])] = read_data[dates[0]][5]
         for j in dates:
-            pred_data[i, m, :] = read_data[j]
-            # read time
+            pred_data[i, m, :] = read_data[j][0: 5]
             m = m + 1
-    return pred_data, id
+
+    return pred_data, id, pred_time_stamp
 
 def gene_batch(batch_size, data, label):
     """
@@ -255,8 +258,8 @@ if __name__ == "__main__":
     input, output = gene_batch(batch_size = 20, data = data, label = label)
 
     # test gene_pred()
-    p_data, id = gene_pred(data_dir = "../data/predict_data1/")
-    pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
-    print(pre_data.shape)
+    p_data, id, stamp = gene_pred(data_dir = "../data/predict_data1/")
+    #pre_data, _ = gene_data(num = p_data.shape[0], activity_data = p_data)
+    print(stamp)
 
 

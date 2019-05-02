@@ -194,7 +194,7 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
     :param latest_date: latest date
     :param size: data length(days of calving date)
     :param num_feature: number of feature
-    :return: array of id and data
+    :return: array of id and data && time stamp of each cow data (cow_id, time_stamp)
     """
     calv_num, files = file_name(data_dir)
     dates = getdate(date = latest_date, days = size)

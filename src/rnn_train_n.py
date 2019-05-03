@@ -118,7 +118,7 @@ def lstm_cell(lstm_size):
     :param lstm_size: layer size
     :return: cell with size
     """
-    return tf.contrib.rnn.BasicLSTMCell(lstm_size)
+    return tf.contrib.rnn.BasicLSTMCell(lstm_size, forget_bias = 1)
 
 if __name__ == "__main__":
     parser = ArgumentParser()

@@ -85,7 +85,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # cost
     cost = tf.losses.mean_squared_error(y_, predictions)
-    optimizer = tf.train.AdamOptimizer(learning_rate = 0.1).minimize(cost)
+    optimizer = tf.train.AdamOptimizer(learning_rate = 0.001).minimize(cost)
 
     # train
     with tf.Session() as sess:

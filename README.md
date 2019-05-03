@@ -3,6 +3,6 @@ Calving time prediction
 
 sliding window extracting features
 
-model: RNN 
+model: LSTM
 
 To do: deploy on Azure

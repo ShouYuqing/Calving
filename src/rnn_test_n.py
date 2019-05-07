@@ -31,7 +31,12 @@ def test(f_id):
     #print("--------fetch data--------")
 
     # data generator and record reading time_stamp
-    p_data, id, pred_time_stamp = datagenerator.gene_pred_timestamp(time_stamp = "../data/time_stamp_read.json", data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
+    p_data, id, pred_time_stamp, time_stamp = datagenerator.gene_pred_timestamp(data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
+
+    # write time_stamp
+    file_dir = '../data/time_stamp_read.json'
+    with open(file_dir, 'w') as file_obj:
+        json.dump(time_stamp, file_obj)
 
     # model specification
     # parameters

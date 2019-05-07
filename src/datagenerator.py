@@ -219,7 +219,7 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
     return pred_data, id, pred_time_stamp
 
 
-def gene_pred_timestamp(time_stamp = "../data/time_stamp.json", data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 12, num_feature = 5):
+def gene_pred_timestamp(data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 12, num_feature = 5):
     """
     generate data used for prediction && add time_stamp while reading the file
     :param data_dir: prediction date dir
@@ -233,13 +233,13 @@ def gene_pred_timestamp(time_stamp = "../data/time_stamp.json", data_dir = "../d
     pred_data = np.zeros((len(calv_num), size, num_feature))
     pred_time_stamp = {}
     id = np.zeros((len(calv_num), 1))
+    time_stamp = []
     for i in np.arange(len(calv_num)):
         # write time_stamp
         ts = {}
         ts["id"] = calv_num[i]
         ts["time_stamp"] = time.time()
-        with open(time_stamp, 'w') as file_obj:
-            json.dump(ts, file_obj)
+        time_stamp.append(ts)
         # array of id
         id[i] = calv_num[i]
         # read .json data of each cow
@@ -253,7 +253,7 @@ def gene_pred_timestamp(time_stamp = "../data/time_stamp.json", data_dir = "../d
             pred_data[i, m, :] = read_data[j][0: 5]
             m = m + 1
 
-    return pred_data, id, pred_time_stamp
+    return pred_data, id, pred_time_stamp, time_stamp
 
 def gene_batch(batch_size, data, label):
     """

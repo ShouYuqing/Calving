@@ -58,7 +58,7 @@ def train(iterations, load_iter, batch_size = 20):
 
     # placeholder
     x = tf.placeholder(tf.float32, [None, time_step, len2*n], name = 'input_x')
-    y_ = tf.placeholder(tf.float32, [None, time_step], name = 'output_y')
+    y_ = tf.placeholder(tf.float32, [None, time_step, 2], name = 'output_y')# the output of the model is: each time_stamp output a vector of [a, b], which a depicts prob for 0, b depicts prob for 1
 
     # cell
     cell = tf.contrib.rnn.MultiRNNCell([lstm_cell(lstm_size = lstm_size) for _ in range(lstm_layers)])

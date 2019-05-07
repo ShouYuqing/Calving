@@ -5,6 +5,7 @@ import json
 import numpy as np
 import os
 import datetime
+import time
 
 def gene_arr(length):
     """
@@ -202,6 +203,43 @@ def gene_pred(data_dir = "../data/predict_data/", latest_date = "2019-03-19", si
     pred_time_stamp = {}
     id = np.zeros((len(calv_num), 1))
     for i in np.arange(len(calv_num)):
+        # array of id
+        id[i] = calv_num[i]
+        # read .json data of each cow
+        file_dir = data_dir + files[i]
+        f = open(file_dir, encoding='utf-8')
+        read_data = json.load(f)# all the activity data for a single cow
+        m = 0
+        # read time_stamp
+        pred_time_stamp[str(calv_num[i])] = read_data[dates[0]][5]
+        for j in dates:
+            pred_data[i, m, :] = read_data[j][0: 5]
+            m = m + 1
+
+    return pred_data, id, pred_time_stamp
+
+
+def gene_pred_timestamp(time_stamp = "../data/time_stamp.json", data_dir = "../data/predict_data/", latest_date = "2019-03-19", size = 12, num_feature = 5):
+    """
+    generate data used for prediction && add time_stamp while reading the file
+    :param data_dir: prediction date dir
+    :param latest_date: latest date
+    :param size: data length(days of calving date)
+    :param num_feature: number of feature
+    :return: array of id and data && time stamp of each cow data (cow_id, time_stamp)
+    """
+    calv_num, files = file_name(data_dir)
+    dates = getdate(date = latest_date, days = size)
+    pred_data = np.zeros((len(calv_num), size, num_feature))
+    pred_time_stamp = {}
+    id = np.zeros((len(calv_num), 1))
+    for i in np.arange(len(calv_num)):
+        # write time_stamp
+        ts = {}
+        ts["id"] = calv_num[i]
+        ts["time_stamp"] = time.time()
+        with open(time_stamp, 'w') as file_obj:
+            json.dump(ts, file_obj)
         # array of id
         id[i] = calv_num[i]
         # read .json data of each cow

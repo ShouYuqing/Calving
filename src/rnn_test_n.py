@@ -6,6 +6,7 @@ import os
 import sys
 import glob
 import json
+import time
 from argparse import ArgumentParser
 
 import numpy as np
@@ -29,8 +30,8 @@ def test(f_id):
     #ssh_data.ssh_get(src = "-r /home/cloud/predict_data" + str(f_id))
     #print("--------fetch data--------")
 
-    # data generator
-    p_data, id, pred_time_stamp = datagenerator.gene_pred(data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
+    # data generator and record reading time_stamp
+    p_data, id, pred_time_stamp = datagenerator.gene_pred_timestamp(time_stamp = "../data/time_stamp_read.json", data_dir = "../data/predict_data" + str(f_id) + '/', latest_date = "2019-03-19", size = 12, num_feature = 5)
 
     # model specification
     # parameters
@@ -90,6 +91,17 @@ def test(f_id):
         print(result)
         save_result[:] = result
 
+    # write time_stamp into result
+    ts2 = []
+    for i in np.arange(id.shape[0]):
+        item = {}
+        item["id"] = int(id[i])
+        item["time_stamp"] = time.time()
+        ts2.append(item)
+    file_dir = '../data/time_stamp_predict.json'
+    with open(file_dir, 'w') as file_obj:
+        json.dump(ts2, file_obj)
+
     # result as dict
     predict_result = []
     for i in np.arange(id.shape[0]):
@@ -126,3 +138,17 @@ if __name__ == "__main__":
     test(**vars(args))
     #test(1)
     #test(2)
+
+    # record time_stamp
+    time_stamp = {}
+    for i in np.arange(id.shape[0]):
+        item = {}
+        item["id"] = int(id[i])
+        item["probability"] = round(100 * save_result[i, 0], 2)
+        item["ts"] = pred_time_stamp[str(int(id[i]))]
+        predict_result.append(item)
+    # result into json
+    file_dir = '../data/predict_result' + str(f_id) + '.json'
+    with open(file_dir, 'w') as file_obj:
+        print("---------write result into json---------")
+        json.dump(predict_result, file_obj)

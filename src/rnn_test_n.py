@@ -138,17 +138,3 @@ if __name__ == "__main__":
     test(**vars(args))
     #test(1)
     #test(2)
-
-    # record time_stamp
-    time_stamp = {}
-    for i in np.arange(id.shape[0]):
-        item = {}
-        item["id"] = int(id[i])
-        item["probability"] = round(100 * save_result[i, 0], 2)
-        item["ts"] = pred_time_stamp[str(int(id[i]))]
-        predict_result.append(item)
-    # result into json
-    file_dir = '../data/predict_result' + str(f_id) + '.json'
-    with open(file_dir, 'w') as file_obj:
-        print("---------write result into json---------")
-        json.dump(predict_result, file_obj)

@@ -1,5 +1,4 @@
 """
-newest version
 LSTM training
 """
 import os

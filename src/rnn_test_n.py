@@ -1,5 +1,4 @@
 """
-newest version
 LSTM prediction
 communication between VM
 """

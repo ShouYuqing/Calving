@@ -140,6 +140,7 @@ if __name__ == "__main__":
                         help="data file id: 1/2")
 
     args = parser.parse_args()
-    test(**vars(args))
+    while(1):
+        test(**vars(args))
     #test(1)
     #test(2)

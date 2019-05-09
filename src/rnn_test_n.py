@@ -142,6 +142,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     while(1):
         test(**vars(args))
-        time.sleep(600)
+        time.sleep(240)
     #test(1)
     #test(2)
